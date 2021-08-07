@@ -56,6 +56,6 @@ class Routes {
   static final Map<String, WidgetBuilder> routes = {
     '/': (context) => RootPage(),
     '/home': (context) => RecordListPage(title: 'ホーム'),
-    '/settings': (context) => BirdListPage(title: '愛鳥管理'),
+    '/bird_list': (context) => BirdListPage(title: '愛鳥管理'),
   };
 }

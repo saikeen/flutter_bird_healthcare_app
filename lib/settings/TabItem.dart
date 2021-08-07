@@ -14,6 +14,6 @@ const TabItemInfo = <TabItem, Map>{
   TabItem.settings: {
     'icon': Icons.list_alt_outlined,
     'label': '愛鳥管理',
-    'routerName': '/settings',
+    'routerName': '/bird_list',
   },
 };
