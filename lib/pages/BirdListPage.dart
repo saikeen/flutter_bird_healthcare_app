@@ -64,8 +64,14 @@ class _BirdListPageState extends State<BirdListPage> {
                       children: <Widget>[
                         IconButton(
                           icon: Icon(Icons.edit),
-                          onPressed: () {
-                            // タップ時の処理
+                          onPressed: () => {
+                            //タブ内に遷移
+                            NavigationService.pushInTab(
+                              "/bird_edit",
+                              arguments: ScreenArguments(
+                                DateTime.now().toIso8601String(),
+                              ),
+                            )
                           },
                         ),
                         IconButton(
@@ -82,6 +88,20 @@ class _BirdListPageState extends State<BirdListPage> {
             )
           ).toList(),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => {
+          //タブ内に遷移
+          NavigationService.pushInTab(
+            "/bird_registration",
+            arguments: ScreenArguments(
+              DateTime.now().toIso8601String(),
+            ),
+          )
+        },
+        label: const Text('追加'),
+        icon: const Icon(Icons.add),
+        backgroundColor: Colors.pink,
       ),
     );
   }
