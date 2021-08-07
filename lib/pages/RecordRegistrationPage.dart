@@ -4,8 +4,8 @@ import 'package:BirdHealthcare/services/NavigationService.dart';
 import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
 
-class DammyPage extends StatefulWidget {
-  DammyPage({
+class RecordRegistrationPage extends StatefulWidget {
+  RecordRegistrationPage({
     Key key,
     this.title,
     this.arguments,
@@ -15,10 +15,10 @@ class DammyPage extends StatefulWidget {
   final ScreenArguments arguments;
 
   @override
-  _DammyPageState createState() => _DammyPageState();
+  _RecordRegistrationPageState createState() => _RecordRegistrationPageState();
 }
 
-class _DammyPageState extends State<DammyPage> {
+class _RecordRegistrationPageState extends State<RecordRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments != null) {
@@ -59,44 +59,18 @@ class _DammyPageState extends State<DammyPage> {
             SizedBox(
               height: 20,
             ),
-            (widget.arguments != null && widget.arguments.message == 'in full screen')
-                ? TextButton(
-                    onPressed: () => {
-                      //フルスクリーン内で遷移
-                      NavigationService.pushNamedRoot(
-                        "/detail",
-                        arguments: ScreenArguments(
-                          'in full screen',
-                        ),
-                      )
-                    },
-                    child: Text('/detail in fullscreen'),
-                  )
-                : TextButton(
-                    onPressed: () => {
-                      //タブ内に遷移
-                      NavigationService.pushInTab(
-                        "/detail",
-                        arguments: ScreenArguments(
-                          DateTime.now().toIso8601String(),
-                        ),
-                      )
-                    },
-                    child: Text('/detail in tab'),
-                  ),
             TextButton(
               onPressed: () => {
-                //フルスクリーンで遷移
-                NavigationService.pushNamedRoot(
-                  "/fullscreen",
+                //タブ内に遷移
+                NavigationService.pushInTab(
+                  "/record_registration",
                   arguments: ScreenArguments(
-                    'in full screen',
-                    fullscreenDialog: true,
+                    DateTime.now().toIso8601String(),
                   ),
                 )
               },
-              child: Text('/fullscreen'),
-            )
+              child: Text('/detail in tab from RecordRegistrationPage'),
+            ),
           ],
         ),
       ),

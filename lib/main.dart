@@ -1,5 +1,5 @@
-import 'package:ExampleBottomNavigation/services/NavigationService.dart';
-import 'package:ExampleBottomNavigation/settings/Routes.dart';
+import 'package:BirdHealthcare/services/NavigationService.dart';
+import 'package:BirdHealthcare/settings/Routes.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/RootPage.dart';

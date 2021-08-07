@@ -1,5 +1,5 @@
-import 'package:ExampleBottomNavigation/settings/Routes.dart';
-import 'package:ExampleBottomNavigation/settings/TabItem.dart';
+import 'package:BirdHealthcare/settings/Routes.dart';
+import 'package:BirdHealthcare/settings/TabItem.dart';
 import 'package:flutter/material.dart';
 
 class NavigationService {
@@ -17,7 +17,6 @@ class NavigationService {
   TabItem currentTab = TabItem.home;
   Map<TabItem, GlobalKey<NavigatorState>> tabNavigatorKeys = {
     TabItem.home: GlobalKey<NavigatorState>(),
-    TabItem.star: GlobalKey<NavigatorState>(),
     TabItem.settings: GlobalKey<NavigatorState>(),
   };
 

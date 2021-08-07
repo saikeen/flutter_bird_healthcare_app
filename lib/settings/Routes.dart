@@ -1,9 +1,12 @@
-import 'package:ExampleBottomNavigation/settings/ScreenArguments.dart';
+import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ExampleBottomNavigation/pages/DammyPage.dart';
-import 'package:ExampleBottomNavigation/pages/RootPage.dart';
-
+import 'package:BirdHealthcare/pages/RootPage.dart';
+import 'package:BirdHealthcare/pages/DammyPage.dart';
+import 'package:BirdHealthcare/pages/RecordListPage.dart';
+import 'package:BirdHealthcare/pages/RecordRegistrationPage.dart';
+import 'package:BirdHealthcare/pages/BirdListPage.dart';
+import 'package:BirdHealthcare/pages/BirdRegistrationPage.dart';
 class Routes {
   static final RouteFactory onGenerateRoute = (RouteSettings settings) {
     final ScreenArguments arg = settings.arguments;
@@ -16,10 +19,18 @@ class Routes {
         ),
         fullscreenDialog: arg.fullscreenDialog,
       );
-    } else if (settings.name == '/detail') {
+    } else if (settings.name == '/record_registration') {
       return MaterialPageRoute(
-        builder: (context) => DammyPage(
-          title: 'detail',
+        builder: (context) => RecordRegistrationPage(
+          title: '記録登録',
+          arguments: arg,
+        ),
+        fullscreenDialog: arg.fullscreenDialog,
+      );
+    } else if (settings.name == '/bird_registration') {
+      return MaterialPageRoute(
+        builder: (context) => BirdRegistrationPage(
+          title: '愛鳥登録',
           arguments: arg,
         ),
         fullscreenDialog: arg.fullscreenDialog,
@@ -35,8 +46,7 @@ class Routes {
 
   static final Map<String, WidgetBuilder> routes = {
     '/': (context) => RootPage(),
-    '/home': (context) => DammyPage(title: 'home'),
-    '/star': (context) => DammyPage(title: 'star'),
-    '/settings': (context) => DammyPage(title: 'settings'),
+    '/home': (context) => RecordListPage(title: 'ホーム'),
+    '/settings': (context) => BirdListPage(title: '愛鳥管理'),
   };
 }

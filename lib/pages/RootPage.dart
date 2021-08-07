@@ -1,7 +1,7 @@
-import 'package:ExampleBottomNavigation/services/NavigationService.dart';
-import 'package:ExampleBottomNavigation/settings/TabItem.dart';
-import 'package:ExampleBottomNavigation/widgets/BottomNavigation.dart';
-import 'package:ExampleBottomNavigation/widgets/TabNavigator.dart';
+import 'package:BirdHealthcare/services/NavigationService.dart';
+import 'package:BirdHealthcare/settings/TabItem.dart';
+import 'package:BirdHealthcare/widgets/BottomNavigation.dart';
+import 'package:BirdHealthcare/widgets/TabNavigator.dart';
 import 'package:flutter/material.dart';
 
 class RootPage extends StatefulWidget {
@@ -53,9 +53,6 @@ class _RootPageState extends State<RootPage> {
         children: <Widget>[
           _buildTabItem(
             TabItem.home,
-          ),
-          _buildTabItem(
-            TabItem.star,
           ),
           _buildTabItem(
             TabItem.settings,

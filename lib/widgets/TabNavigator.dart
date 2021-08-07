@@ -1,5 +1,5 @@
-import 'package:ExampleBottomNavigation/settings/Routes.dart';
-import 'package:ExampleBottomNavigation/settings/TabItem.dart';
+import 'package:BirdHealthcare/settings/Routes.dart';
+import 'package:BirdHealthcare/settings/TabItem.dart';
 import 'package:flutter/material.dart';
 
 class TabNavigator extends StatelessWidget {

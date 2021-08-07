@@ -1,4 +1,4 @@
-import 'package:ExampleBottomNavigation/settings/TabItem.dart';
+import 'package:BirdHealthcare/settings/TabItem.dart';
 import 'package:flutter/material.dart';
 class BottomNavigation extends StatelessWidget {
   const BottomNavigation({
@@ -18,10 +18,6 @@ class BottomNavigation extends StatelessWidget {
         bottomItem(
           context,
           tabItem: TabItem.home,
-        ),
-        bottomItem(
-          context,
-          tabItem: TabItem.star,
         ),
         bottomItem(
           context,
