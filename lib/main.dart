@@ -1,10 +1,13 @@
 import 'package:BirdHealthcare/services/NavigationService.dart';
 import 'package:BirdHealthcare/settings/Routes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/RootPage.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

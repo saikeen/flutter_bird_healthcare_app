@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "451459238793",
+    "project_id": "flutter-bird-healthcare-app",
+    "storage_bucket": "flutter-bird-healthcare-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451459238793:android:31b42e4bbd29a24bf8af58",
+        "android_client_info": {
+          "package_name": "com.example.flutter_bird_healthcare_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "451459238793-b8kbp9qegm4hr7vocmt7tua8vreuqgpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-3TwbKV3Uf9xTCvJu09gAJTmFtNL1lyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "451459238793-b8kbp9qegm4hr7vocmt7tua8vreuqgpn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "451459238793-vd26ii4nng3i56klrvvsajss5v8o5tqt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterBirdHealthcareApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

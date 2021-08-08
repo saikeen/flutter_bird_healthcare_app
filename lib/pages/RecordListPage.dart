@@ -1,4 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:BirdHealthcare/services/NavigationService.dart';
@@ -150,6 +151,8 @@ class _RecordListPageState extends State<RecordListPage> {
       return series;
     }
 
+    final Stream<QuerySnapshot> _birdsStream = FirebaseFirestore.instance.collection('birds').snapshots();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -171,42 +174,46 @@ class _RecordListPageState extends State<RecordListPage> {
               //     width: 8.0,
               //   ),
               // ),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: birds.map((bird) =>
-                  // ElevatedButton(
-                  //     onPressed: () {},
-                  //     child: Icon(Icons.add, color: Colors.white),
-                  //     style: ElevatedButton.styleFrom(
-                  //       shape: CircleBorder(),
-                  //       padding: EdgeInsets.all(20),
-                  //       primary: Colors.blue,
-                  //       onPrimary: Colors.white,
-                  //     ),
-                  // ),
-                  Stack(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 30.0,
-                        backgroundColor: Colors.grey.shade200,
-                        child: ClipOval(
-                          child: Image.network(
-                            bird.imgUrl,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _birdsStream,
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
+
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: snapshot.data.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      return Stack(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 30.0,
+                            backgroundColor: Colors.grey.shade200,
+                            child: ClipOval(
+                              child: Image.network(
+                                data['imageUrl'],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0.0,
-                        width: 60.0,
-                        height: 60.0,
-                        child: RawMaterialButton(
-                          onPressed: () {},
-                          shape: CircleBorder(),
-                        ),
-                      ),
-                    ],
-                  )
-                ).toList(),
+                          Positioned(
+                            right: 0.0,
+                            width: 60.0,
+                            height: 60.0,
+                            child: RawMaterialButton(
+                              onPressed: () {},
+                              shape: CircleBorder(),
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  );
+                },
               ),
             ),
             Container(
