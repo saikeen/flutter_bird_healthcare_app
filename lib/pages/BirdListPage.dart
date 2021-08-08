@@ -58,7 +58,11 @@ class _BirdListPageState extends State<BirdListPage> {
                     subtitle: Text("生年月日: 20xx/xx/xx"),
                     leading: CircleAvatar(
                       backgroundColor: Colors.grey.shade200,
-                      backgroundImage: NetworkImage(bird.imgUrl)
+                      child: ClipOval(
+                        child: Image.network(
+                          bird.imgUrl,
+                        ),
+                      ),
                     ),
                     trailing: Wrap(
                       children: <Widget>[
