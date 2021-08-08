@@ -1,8 +1,7 @@
-import 'dart:ui';
-
-import 'package:BirdHealthcare/services/NavigationService.dart';
-import 'package:BirdHealthcare/settings/ScreenArguments.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'dart:ui';
+import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 
 class RecordListPage extends StatefulWidget {
   RecordListPage({
@@ -104,6 +103,52 @@ class _RecordListPageState extends State<RecordListPage> {
       ),
     ];
 
+    final bodyWeightData = [
+      new BodyWeightData(new DateTime(2021, 8, 8), 3),
+      new BodyWeightData(new DateTime(2021, 8, 9), 3),
+      new BodyWeightData(new DateTime(2021, 8, 10), 3),
+      new BodyWeightData(new DateTime(2021, 8, 11), 3),
+      new BodyWeightData(new DateTime(2021, 8, 12), 3),
+      new BodyWeightData(new DateTime(2021, 8, 13), 3),
+      new BodyWeightData(new DateTime(2021, 8, 14), 3),
+    ];
+
+    final foodWeightData = [
+      new FoodWeightData(new DateTime(2021, 8, 8), 3),
+      new FoodWeightData(new DateTime(2021, 8, 9), 3),
+      new FoodWeightData(new DateTime(2021, 8, 10), 3),
+      new FoodWeightData(new DateTime(2021, 8, 11), 3),
+      new FoodWeightData(new DateTime(2021, 8, 12), 3),
+      new FoodWeightData(new DateTime(2021, 8, 13), 3),
+      new FoodWeightData(new DateTime(2021, 8, 14), 3),
+    ];
+
+    _getBodyWeightData() {
+      List<charts.Series<BodyWeightData, DateTime>> series = [
+        charts.Series(
+          id: "Sales",
+          data: bodyWeightData,
+          domainFn: (BodyWeightData bodyWeight, _) => bodyWeight.time,
+          measureFn: (BodyWeightData bodyWeight, _) => bodyWeight.sales,
+          colorFn: (BodyWeightData bodyWeight, _) => charts.MaterialPalette.blue.shadeDefault
+        )
+      ];
+      return series;
+    }
+
+    _getFoodWeightData() {
+      List<charts.Series<FoodWeightData, DateTime>> series = [
+        charts.Series(
+          id: "Sales",
+          data: foodWeightData,
+          domainFn: (FoodWeightData foodWeight, _) => foodWeight.time,
+          measureFn: (FoodWeightData foodWeight, _) => foodWeight.sales,
+          colorFn: (FoodWeightData foodWeight, _) => charts.MaterialPalette.blue.shadeDefault
+        )
+      ];
+      return series;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -154,84 +199,58 @@ class _RecordListPageState extends State<RecordListPage> {
               ),
             ),
             Container(
-              height: 500.0,
+              height: 300.0,
               decoration: BoxDecoration(border: Border.all(
                   color: Colors.blue,
                   width: 8.0,
                 ),
               ),
-              child: ListView(
-                children: [
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                  Text("aaaaaa"),
-                ]
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "体重",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Expanded(
+                        child: new charts.TimeSeriesChart(_getBodyWeightData(), animate: true,),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ),
+            Container(
+              height: 300.0,
+              decoration: BoxDecoration(border: Border.all(
+                  color: Colors.blue,
+                  width: 8.0,
+                ),
               ),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "食事量",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Expanded(
+                        child: new charts.TimeSeriesChart(_getFoodWeightData(), animate: true,),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ),
           ],
         ),
@@ -247,4 +266,18 @@ class Bird {
    @required this.name,
    @required this.imgUrl,
  });
+}
+
+class BodyWeightData {
+  final DateTime time;
+  final int sales;
+
+  BodyWeightData(this.time, this.sales);
+}
+
+class FoodWeightData {
+  final DateTime time;
+  final int sales;
+
+  FoodWeightData(this.time, this.sales);
 }
