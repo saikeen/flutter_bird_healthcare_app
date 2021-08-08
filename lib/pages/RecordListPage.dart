@@ -109,34 +109,131 @@ class _RecordListPageState extends State<RecordListPage> {
         title: Text(widget.title),
         elevation: 0,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: birds.map((bird) =>
-            Stack(
-              children: <Widget>[
-                CircleAvatar(
-                  radius: 30.0,
-                  backgroundColor: Colors.grey.shade200,
-                  child: ClipOval(
-                    child: Image.network(
-                      bird.imgUrl,
-                    ),
-                  ),
+      body: Container(
+        decoration: BoxDecoration(border: Border.all(
+            color: Colors.red,
+            width: 8.0,
+          ),
+        ),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+              height: 80.0,
+              decoration: BoxDecoration(border: Border.all(
+                  color: Colors.blue,
+                  width: 8.0,
                 ),
-                Positioned(
-                  right: 0.0,
-                  width: 60.0,
-                  height: 60.0,
-                  child: RawMaterialButton(
-                    onPressed: () {},
-                    shape: CircleBorder(),
-                  ),
+              ),
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: birds.map((bird) =>
+                  Stack(
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 30.0,
+                        backgroundColor: Colors.grey.shade200,
+                        child: ClipOval(
+                          child: Image.network(
+                            bird.imgUrl,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0.0,
+                        width: 60.0,
+                        height: 60.0,
+                        child: RawMaterialButton(
+                          onPressed: () {},
+                          shape: CircleBorder(),
+                        ),
+                      ),
+                    ],
+                  )
+                ).toList(),
+              ),
+            ),
+            Container(
+              height: 500.0,
+              decoration: BoxDecoration(border: Border.all(
+                  color: Colors.blue,
+                  width: 8.0,
                 ),
-              ],
-            )
-          ).toList(),
+              ),
+              child: ListView(
+                children: [
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                  Text("aaaaaa"),
+                ]
+              ),
+            ),
+          ],
         ),
       ),
     );
