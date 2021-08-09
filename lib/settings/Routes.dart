@@ -1,13 +1,13 @@
 import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
 
-import 'package:BirdHealthcare/pages/RootPage.dart';
-import 'package:BirdHealthcare/pages/DammyPage.dart';
-import 'package:BirdHealthcare/pages/RecordListPage.dart';
-import 'package:BirdHealthcare/pages/RecordRegistrationPage.dart';
-import 'package:BirdHealthcare/pages/BirdListPage.dart';
-import 'package:BirdHealthcare/pages/BirdRegistrationPage.dart';
-import 'package:BirdHealthcare/pages/BirdEditPage.dart';
+import 'package:BirdHealthcare/components/pages/root_page.dart';
+import 'package:BirdHealthcare/components/pages/dammy_page.dart';
+import 'package:BirdHealthcare/components/pages/record_list_page.dart';
+import 'package:BirdHealthcare/components/pages/record_registration_page.dart';
+import 'package:BirdHealthcare/components/pages/bird_list_page.dart';
+import 'package:BirdHealthcare/components/pages/bird_registration_page.dart';
+import 'package:BirdHealthcare/components/pages/bird_edit_page.dart';
 class Routes {
   static final RouteFactory onGenerateRoute = (RouteSettings settings) {
     final ScreenArguments arg = settings.arguments;

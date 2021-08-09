@@ -3,7 +3,7 @@ import 'package:BirdHealthcare/settings/Routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'pages/RootPage.dart';
+import 'components/pages/root_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
