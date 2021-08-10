@@ -6,7 +6,7 @@ import 'package:BirdHealthcare/components/pages/dammy_page.dart';
 import 'package:BirdHealthcare/components/pages/record_list_page.dart';
 import 'package:BirdHealthcare/components/pages/record_registration_page.dart';
 import 'package:BirdHealthcare/components/pages/bird_list_page.dart';
-import 'package:BirdHealthcare/components/pages/bird_registration_page.dart';
+import 'package:BirdHealthcare/components/pages/bird_add_page.dart';
 import 'package:BirdHealthcare/components/pages/bird_edit_page.dart';
 class Routes {
   static final RouteFactory onGenerateRoute = (RouteSettings settings) {
@@ -30,7 +30,7 @@ class Routes {
       );
     } else if (settings.name == '/bird_registration') {
       return MaterialPageRoute(
-        builder: (context) => BirdRegistrationPage(
+        builder: (context) => BirdAddPage(
           title: '愛鳥登録',
           arguments: arg,
         ),
