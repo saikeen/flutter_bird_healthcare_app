@@ -69,6 +69,7 @@ class _BirdAddPageState extends State<BirdAddPage> {
                       // 追加の処理
                       try {
                         await model.addBird();
+                        Navigator.of(context).pop(true);
                         final snackBar = SnackBar(
                           backgroundColor: Colors.green,
                           content: Text('愛鳥を登録しました'),

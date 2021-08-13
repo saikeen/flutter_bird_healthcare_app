@@ -86,19 +86,23 @@ class _BirdListPageState extends State<BirdListPage> {
             );
           }),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => {
-            //タブ内に遷移
-            NavigationService.pushInTab(
-              "/bird_registration",
-              arguments: ScreenArguments(
-                DateTime.now().toIso8601String(),
-              ),
-            )
-          },
-          label: const Text('追加'),
-          icon: const Icon(Icons.add),
-          backgroundColor: Colors.pink,
+        floatingActionButton: Consumer<BirdListModel>(builder: (context, model, child) {
+            return FloatingActionButton.extended(
+              onPressed: () async => {
+                //タブ内に遷移
+                await NavigationService.pushInTab(
+                  "/bird_registration",
+                  arguments: ScreenArguments(
+                    DateTime.now().toIso8601String(),
+                  ),
+                ),
+                model.fetchBirdList()
+              },
+              label: const Text('追加'),
+              icon: const Icon(Icons.add),
+              backgroundColor: Colors.pink,
+            );
+          }
         ),
       ),
     );
