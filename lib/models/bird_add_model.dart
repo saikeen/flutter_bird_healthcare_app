@@ -19,7 +19,7 @@ class BirdAddModel extends ChangeNotifier {
     await FirebaseFirestore.instance.collection('birds').add({
       'name': name,
       'imageUrl': imageUrl,
-      'createdAt': Timestamp.now(),
+      'createdAt': FieldValue.serverTimestamp(),
     });
   }
 }
