@@ -7,7 +7,6 @@ import 'package:BirdHealthcare/components/pages/record_list_page.dart';
 import 'package:BirdHealthcare/components/pages/record_registration_page.dart';
 import 'package:BirdHealthcare/components/pages/bird_list_page.dart';
 import 'package:BirdHealthcare/components/pages/add_bird_page.dart';
-import 'package:BirdHealthcare/components/pages/bird_edit_page.dart';
 class Routes {
   static final RouteFactory onGenerateRoute = (RouteSettings settings) {
     final ScreenArguments arg = settings.arguments;
@@ -28,18 +27,10 @@ class Routes {
         ),
         fullscreenDialog: arg.fullscreenDialog,
       );
-    } else if (settings.name == '/bird_registration') {
+    } else if (settings.name == '/add_bird') {
       return MaterialPageRoute(
         builder: (context) => AddBirdPage(
           title: '愛鳥登録',
-          arguments: arg,
-        ),
-        fullscreenDialog: arg.fullscreenDialog,
-      );
-    } else if (settings.name == '/bird_edit') {
-      return MaterialPageRoute(
-        builder: (context) => BirdEditPage(
-          title: '愛鳥編集',
           arguments: arg,
         ),
         fullscreenDialog: arg.fullscreenDialog,
