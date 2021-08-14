@@ -1,10 +1,10 @@
-import 'package:BirdHealthcare/models/bird_add_model.dart';
+import 'package:BirdHealthcare/models/add_bird_model.dart';
 import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BirdAddPage extends StatefulWidget {
-  BirdAddPage({
+class AddBirdPage extends StatefulWidget {
+  AddBirdPage({
     Key key,
     this.title,
     this.arguments,
@@ -14,10 +14,10 @@ class BirdAddPage extends StatefulWidget {
   final ScreenArguments arguments;
 
   @override
-  _BirdAddPageState createState() => _BirdAddPageState();
+  _AddBirdPageState createState() => _AddBirdPageState();
 }
 
-class _BirdAddPageState extends State<BirdAddPage> {
+class _AddBirdPageState extends State<AddBirdPage> {
   @override
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments != null) {
@@ -29,15 +29,15 @@ class _BirdAddPageState extends State<BirdAddPage> {
       print(widget.arguments);
     }
 
-    return ChangeNotifierProvider<BirdAddModel>(
-      create: (_) => BirdAddModel(),
+    return ChangeNotifierProvider<AddBirdModel>(
+      create: (_) => AddBirdModel(),
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
           elevation: 0,
         ),
         body: Center(
-          child: Consumer<BirdAddModel>(builder: (context, model, child) {
+          child: Consumer<AddBirdModel>(builder: (context, model, child) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

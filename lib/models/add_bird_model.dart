@@ -2,7 +2,7 @@ import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class BirdAddModel extends ChangeNotifier {
+class AddBirdModel extends ChangeNotifier {
   String name;
   String imageUrl;  
 
