@@ -82,8 +82,8 @@ class _BirdListPageState extends State<BirdListPage> {
                     caption: '削除',
                     color: Colors.red,
                     icon: Icons.delete,
-                    onTap: () {
-                      // タップ時の処理
+                    onTap: () async {
+                      await showConfirmDialog(context, bird, model);
                     },
                   ),
                 ],
@@ -114,6 +114,43 @@ class _BirdListPageState extends State<BirdListPage> {
           }
         ),
       ),
+    );
+  }
+  Future showConfirmDialog(
+    BuildContext context,
+    Bird bird,
+    BirdListModel model,
+  ) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("削除の確認"),
+          content: Text("『${bird.name}』を削除しますか？"),
+          actions: [
+            TextButton(
+              child: Text("いいえ"),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            ),
+            TextButton(
+              child: Text("はい"),
+              onPressed: () async {
+                await model.delete(bird);
+                Navigator.of(context, rootNavigator: true).pop();
+                final snackBar = SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text('${bird.name}を削除しました'),
+                );
+                model.fetchBirdList();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

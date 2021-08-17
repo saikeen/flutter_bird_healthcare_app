@@ -21,4 +21,8 @@ class BirdListModel extends ChangeNotifier {
     this.birds = birds;
     notifyListeners();
   }
+
+  Future delete(Bird bird) {
+    return FirebaseFirestore.instance.collection('birds').doc(bird.id).delete();
+  }
 }
