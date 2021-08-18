@@ -4,6 +4,7 @@ import 'package:BirdHealthcare/models/bird_list_model.dart';
 import 'package:BirdHealthcare/services/NavigationService.dart';
 import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -22,6 +23,8 @@ class BirdListPage extends StatefulWidget {
 }
 
 class _BirdListPageState extends State<BirdListPage> {
+  var formatter = DateFormat('yyyy/MM/dd');
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<BirdListModel>(
@@ -44,7 +47,7 @@ class _BirdListPageState extends State<BirdListPage> {
                 actionPane: SlidableDrawerActionPane(),
                 child: ListTile(
                   title: Text(bird.name),
-                  subtitle: Text("生年月日: 20xx/xx/xx"),
+                  subtitle: Text('生年月日: ${formatter.format(bird.birthDate)}'),
                   leading: CircleAvatar(
                     backgroundColor: Colors.grey.shade200,
                     child: ClipOval(

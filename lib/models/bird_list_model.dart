@@ -15,7 +15,8 @@ class BirdListModel extends ChangeNotifier {
       final String id = document.id;
       final String name = data['name'];
       final String imageUrl = data['imageUrl'];
-      return Bird(id, name, imageUrl);
+      final DateTime birthDate = data['birthDate'].toDate();
+      return Bird(id, name, imageUrl, birthDate);
     }).toList();
 
     this.birds = birds;

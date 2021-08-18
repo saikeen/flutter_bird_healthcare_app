@@ -1,6 +1,8 @@
 import 'package:BirdHealthcare/models/add_bird_model.dart';
 import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddBirdPage extends StatefulWidget {
@@ -18,6 +20,9 @@ class AddBirdPage extends StatefulWidget {
 }
 
 class _AddBirdPageState extends State<AddBirdPage> {
+  DateTime birthDate = DateTime.now();
+  var formatter = DateFormat('yyyy/MM/dd');
+
   @override
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).settings.arguments != null) {
@@ -64,9 +69,36 @@ class _AddBirdPageState extends State<AddBirdPage> {
                   SizedBox(
                     height: 16,
                   ),
+                  Text(formatter.format(birthDate)),
+                  TextButton(
+                    onPressed: () {
+                      DatePicker.showDatePicker(
+                        context,
+                        showTitleActions: true,
+                        minTime: DateTime(2010, 1, 1),
+                        maxTime: DateTime(2021, 12, 31),
+                        onChanged: (date) {
+                          print('change $date');
+                        },
+                        onConfirm: (date) {
+                          print('confirm $date');
+                          setState(() {
+                            birthDate = date;
+                          });
+                          model.birthDate = date;
+                        },
+                        currentTime: birthDate, locale: LocaleType.jp);
+                    },
+                    child: Text(
+                      '生年月日を入力',
+                      style: TextStyle(color: Colors.blue),
+                    )
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
                   ElevatedButton(
                     onPressed: () async {
-                      // 追加の処理
                       try {
                         await model.addBird();
                         Navigator.of(context).pop(true);

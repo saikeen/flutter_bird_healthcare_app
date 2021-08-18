@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class AddBirdModel extends ChangeNotifier {
   String name;
-  String imageUrl;  
+  String imageUrl;
+  DateTime birthDate; 
 
   Future addBird() async {
     if (name == null || name == "") {
@@ -18,6 +19,7 @@ class AddBirdModel extends ChangeNotifier {
     await FirebaseFirestore.instance.collection('birds').add({
       'name': name,
       'imageUrl': imageUrl,
+      'birthDate': birthDate,
       'createdAt': FieldValue.serverTimestamp(),
     });
   }
