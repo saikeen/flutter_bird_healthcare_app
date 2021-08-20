@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AddBirdModel extends ChangeNotifier {
   String name;
   String imageUrl;
-  DateTime birthDate; 
+  DateTime birthDate;
 
   Future addBird() async {
     if (name == null || name == "") {

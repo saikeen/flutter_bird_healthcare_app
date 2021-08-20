@@ -1,4 +1,3 @@
-import 'package:BirdHealthcare/components/pages/edit_bird_page.dart';
 import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:BirdHealthcare/models/bird_list_model.dart';
 import 'package:BirdHealthcare/services/NavigationService.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'edit_bird_page.dart';
 
 class BirdListPage extends StatefulWidget {
   BirdListPage({

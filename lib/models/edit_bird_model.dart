@@ -14,6 +14,7 @@ class EditBirdModel extends ChangeNotifier {
 
   String name;
   String imageUrl;
+  DateTime birthDate;
 
   void setName(String name){
     this.name = name;
@@ -25,8 +26,13 @@ class EditBirdModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setBirthDate(DateTime birthDate){
+    this.birthDate = birthDate;
+    notifyListeners();
+  }
+
   bool isUpdated() {
-    return name != null || imageUrl != null;
+    return name != null || imageUrl != null || birthDate != null;
   }
 
   Future updateBird() async {
@@ -37,6 +43,7 @@ class EditBirdModel extends ChangeNotifier {
     await FirebaseFirestore.instance.collection('birds').doc(bird.id).update({
       'name': name,
       'imageUrl': imageUrl,
+      'birthDate': birthDate,
     });
   }
 }
