@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:BirdHealthcare/components/pages/root_page.dart';
 import 'package:BirdHealthcare/components/pages/dammy_page.dart';
 import 'package:BirdHealthcare/components/pages/record_list_page.dart';
-import 'package:BirdHealthcare/components/pages/record_registration_page.dart';
+import 'package:BirdHealthcare/components/pages/add_record_page.dart';
 import 'package:BirdHealthcare/components/pages/bird_list_page.dart';
 import 'package:BirdHealthcare/components/pages/add_bird_page.dart';
 class Routes {
@@ -21,7 +21,7 @@ class Routes {
       );
     } else if (settings.name == '/record_registration') {
       return MaterialPageRoute(
-        builder: (context) => RecordRegistrationPage(
+        builder: (context) => AddRecordPage(
           title: '記録登録',
           arguments: arg,
         ),
