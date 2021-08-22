@@ -3,12 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class BirdListModel extends ChangeNotifier {
-  List<Bird> birds;
+  List<Bird>? birds;
 
   void fetchBirdList() async {
-
-    final QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('birds').orderBy('createdAt', descending: false).get();
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+                                                          .collection('birds')
+                                                          .orderBy('createdAt', descending: false)
+                                                          .get();
 
     final List<Bird> birds = snapshot.docs.map((DocumentSnapshot document) {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;

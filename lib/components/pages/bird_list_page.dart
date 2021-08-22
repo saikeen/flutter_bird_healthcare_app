@@ -1,23 +1,14 @@
 import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:BirdHealthcare/models/bird_list_model.dart';
-import 'package:BirdHealthcare/services/NavigationService.dart';
-import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'add_bird_page.dart';
 import 'edit_bird_page.dart';
+// import 'edit_bird_page.dart';
 
 class BirdListPage extends StatefulWidget {
-  BirdListPage({
-    Key key,
-    this.title,
-    this.arguments,
-  }) : super(key: key);
-
-  final String title;
-  final ScreenArguments arguments;
-
   @override
   _BirdListPageState createState() => _BirdListPageState();
 }
@@ -31,12 +22,12 @@ class _BirdListPageState extends State<BirdListPage> {
       create: (_) => BirdListModel()..fetchBirdList(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text('愛鳥管理'),
           elevation: 0,
         ),
         body: Center(
           child: Consumer<BirdListModel>(builder: (context, model, child) {
-            final List<Bird> birds = model.birds;
+            final List<Bird>? birds = model.birds;
 
             if (birds == null) {
               return CircularProgressIndicator();
@@ -63,13 +54,12 @@ class _BirdListPageState extends State<BirdListPage> {
                     color: Colors.black45,
                     icon: Icons.edit,
                     onTap: () async {
-                      final String name = await Navigator.push(
+                      final String? name = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditBirdPage(bird)
                         ),
                       );
-
                       model.fetchBirdList();
 
                       if (name != null) {
@@ -100,11 +90,10 @@ class _BirdListPageState extends State<BirdListPage> {
         floatingActionButton: Consumer<BirdListModel>(builder: (context, model, child) {
             return FloatingActionButton.extended(
               onPressed: () async => {
-                //タブ内に遷移
-                await NavigationService.pushInTab(
-                  "/add_bird",
-                  arguments: ScreenArguments(
-                    DateTime.now().toIso8601String(),
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddBirdPage(),
                     fullscreenDialog: true,
                   ),
                 ),

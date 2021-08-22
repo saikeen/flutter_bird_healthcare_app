@@ -1,20 +1,10 @@
 import 'package:BirdHealthcare/models/add_record_model.dart';
-import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 
 class AddRecordPage extends StatefulWidget {
-  AddRecordPage({
-    Key key,
-    this.title,
-    this.arguments,
-  }) : super(key: key);
-
-  final String title;
-  final ScreenArguments arguments;
-
   @override
   _AddRecordPageState createState() => _AddRecordPageState();
 }
@@ -30,20 +20,11 @@ class _AddRecordPageState extends State<AddRecordPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (ModalRoute.of(context).settings.arguments != null) {
-      print("arguments");
-      print(ModalRoute.of(context).settings.arguments);
-    }
-    if (widget.arguments != null) {
-      print("widget.arguments");
-      print(widget.arguments);
-    }
-
     return ChangeNotifierProvider<AddRecordModel>(
       create: (_) => AddRecordModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text('記録登録'),
           elevation: 0,
         ),
         body: Center(

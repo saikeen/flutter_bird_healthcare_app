@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddRecordModel extends ChangeNotifier {
-  double bodyWeight;
-  double foodWeight;
+  double? bodyWeight;
+  double? foodWeight;
 
   Future addRecord() async {
     if (bodyWeight == null || bodyWeight == 0) {

@@ -1,20 +1,10 @@
 import 'package:BirdHealthcare/models/add_bird_model.dart';
-import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddBirdPage extends StatefulWidget {
-  AddBirdPage({
-    Key key,
-    this.title,
-    this.arguments,
-  }) : super(key: key);
-
-  final String title;
-  final ScreenArguments arguments;
-
   @override
   _AddBirdPageState createState() => _AddBirdPageState();
 }
@@ -25,20 +15,11 @@ class _AddBirdPageState extends State<AddBirdPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (ModalRoute.of(context).settings.arguments != null) {
-      print("arguments");
-      print(ModalRoute.of(context).settings.arguments);
-    }
-    if (widget.arguments != null) {
-      print("widget.arguments");
-      print(widget.arguments);
-    }
-
     return ChangeNotifierProvider<AddBirdModel>(
       create: (_) => AddBirdModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text('愛鳥登録'),
           elevation: 0,
         ),
         body: Center(

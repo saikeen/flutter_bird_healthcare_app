@@ -1,22 +1,13 @@
+import 'package:BirdHealthcare/components/atoms/circle_avatar_button.dart';
 import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:BirdHealthcare/models/bird_list_model.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:BirdHealthcare/services/NavigationService.dart';
-import 'package:BirdHealthcare/settings/ScreenArguments.dart';
 import 'package:provider/provider.dart';
+import 'add_record_page.dart';
 
 class RecordListPage extends StatefulWidget {
-  RecordListPage({
-    Key key,
-    this.title,
-    this.arguments,
-  }) : super(key: key);
-
-  final String title;
-  final ScreenArguments arguments;
-
   @override
   _RecordListPageState createState() => _RecordListPageState();
 }
@@ -74,54 +65,30 @@ class _RecordListPageState extends State<RecordListPage> {
       create: (_) => BirdListModel()..fetchBirdList(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text("ホーム"),
           elevation: 0,
         ),
         body: Container(
-          // decoration: BoxDecoration(border: Border.all(
-          //     color: Colors.red,
-          //     width: 8.0,
-          //   ),
-          // ),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Container(
                 height: 60.0,
-                // decoration: BoxDecoration(border: Border.all(
-                //     color: Colors.blue,
-                //     width: 8.0,
-                //   ),
-                // ),
                 child: Consumer<BirdListModel>(builder: (context, model, child) {
-                  final List<Bird> birds = model.birds;
+                  final List<Bird>? birds = model.birds;
     
                   if (birds == null) {
                     return CircularProgressIndicator();
                   }
     
                   final List<Widget> widgets = birds.map(
-                    (bird) => Stack(
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 30.0,
-                          backgroundColor: Colors.grey.shade200,
-                          child: ClipOval(
-                            child: Image.network(
-                              bird.imageUrl,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 0.0,
-                          width: 60.0,
-                          height: 60.0,
-                          child: RawMaterialButton(
-                            onPressed: () {},
-                            shape: CircleBorder(),
-                          ),
-                        ),
-                      ],
+                    (bird) => StylableCircleAbatarButton(
+                      style: CircleAbatarButtonStyle(
+                        backgroundColor: Colors.grey.shade200,
+                        size: 60
+                      ),
+                      text: bird.name,
+                      imageUrl: bird.imageUrl,
                     )
                   ).toList();
                   return ListView(
@@ -132,11 +99,6 @@ class _RecordListPageState extends State<RecordListPage> {
               ),
               Container(
                 height: 250.0,
-                // decoration: BoxDecoration(border: Border.all(
-                //     color: Colors.blue,
-                //     width: 8.0,
-                //   ),
-                // ),
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -159,11 +121,6 @@ class _RecordListPageState extends State<RecordListPage> {
               ),
               Container(
                 height: 250.0,
-                // decoration: BoxDecoration(border: Border.all(
-                //     color: Colors.blue,
-                //     width: 8.0,
-                //   ),
-                // ),
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -188,14 +145,14 @@ class _RecordListPageState extends State<RecordListPage> {
           ),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => {
-            //タブ内に遷移
-            NavigationService.pushInTab(
-              "/record_registration",
-              arguments: ScreenArguments(
-                DateTime.now().toIso8601String(),
+          onPressed: () async => {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddRecordPage(),
+                fullscreenDialog: true,
               ),
-            )
+            ),
           },
           label: const Text('追加'),
           icon: const Icon(Icons.add),

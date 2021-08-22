@@ -12,9 +12,9 @@ class EditBirdModel extends ChangeNotifier {
   final nameController = TextEditingController();
   final imageUrlController = TextEditingController();
 
-  String name;
-  String imageUrl;
-  DateTime birthDate;
+  String? name;
+  String? imageUrl;
+  DateTime? birthDate;
 
   void setName(String name){
     this.name = name;
