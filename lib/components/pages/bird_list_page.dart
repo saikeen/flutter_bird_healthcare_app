@@ -1,5 +1,5 @@
+import 'package:BirdHealthcare/controllers/bird_list_controller.dart';
 import 'package:BirdHealthcare/domain/bird.dart';
-import 'package:BirdHealthcare/models/bird_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,20 +7,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'add_bird_page.dart';
 import 'edit_bird_page.dart';
 
-final _birdListProvider = ChangeNotifierProvider<BirdListModel>(
-  (ref) => BirdListModel()..fetchBirdList(),
-);
-
-class BirdListPage extends StatefulWidget {
+class BirdListPage extends ConsumerWidget {
   @override
-  _BirdListPageState createState() => _BirdListPageState();
-}
+  Widget build(BuildContext context, ScopedReader watch) {
+    var formatter = DateFormat('yyyy/MM/dd');
+    final _provider = watch(birdListProvider);
 
-class _BirdListPageState extends State<BirdListPage> {
-  var formatter = DateFormat('yyyy/MM/dd');
-
-  @override
-  Widget build(BuildContext context) {
     // template start
     return Scaffold(
       // organism start
@@ -32,7 +24,7 @@ class _BirdListPageState extends State<BirdListPage> {
       // organism start
       body: Center(
         child: Consumer(builder: (context, watch, child) {
-          final List<Bird>? birds = watch(_birdListProvider).birds;
+          final List<Bird>? birds = _provider.birds;
 
           if (birds == null) {
             return CircularProgressIndicator();
@@ -69,7 +61,7 @@ class _BirdListPageState extends State<BirdListPage> {
                         builder: (context) => EditBirdPage(bird)
                       ),
                     );
-                    watch(_birdListProvider).fetchBirdList();
+                    _provider.fetchBirdList();
 
                     if (name != null) {
                       final snackBar = SnackBar(
@@ -85,7 +77,7 @@ class _BirdListPageState extends State<BirdListPage> {
                   color: Colors.red,
                   icon: Icons.delete,
                   onTap: () async {
-                    await showConfirmDialog(context, bird, watch(_birdListProvider));
+                    await showConfirmDialog(context, bird, _provider);
                   },
                 ),
               ],
@@ -111,7 +103,7 @@ class _BirdListPageState extends State<BirdListPage> {
                 fullscreenDialog: true,
               ),
             ),
-            watch(_birdListProvider).fetchBirdList()
+            _provider.fetchBirdList()
           },
           label: const Text('追加'),
           icon: const Icon(Icons.add),
@@ -125,7 +117,7 @@ class _BirdListPageState extends State<BirdListPage> {
   Future showConfirmDialog(
     BuildContext context,
     Bird bird,
-    BirdListModel model,
+    BirdListController model,
   ) {
     return showDialog(
       context: context,

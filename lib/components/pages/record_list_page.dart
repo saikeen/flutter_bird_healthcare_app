@@ -1,24 +1,17 @@
 import 'package:BirdHealthcare/components/atoms/circle_avatar_button.dart';
+import 'package:BirdHealthcare/controllers/bird_list_controller.dart';
 import 'package:BirdHealthcare/domain/bird.dart';
-import 'package:BirdHealthcare/models/bird_list_model.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'add_record_page.dart';
 
-final _birdListProvider = ChangeNotifierProvider<BirdListModel>(
-  (ref) => BirdListModel()..fetchBirdList(),
-);
-
-class RecordListPage extends StatefulWidget {
+class RecordListPage extends ConsumerWidget {
   @override
-  _RecordListPageState createState() => _RecordListPageState();
-}
+  Widget build(BuildContext context, ScopedReader watch) {
+    final _provider = watch(birdListProvider);
 
-class _RecordListPageState extends State<RecordListPage> {
-  @override
-  Widget build(BuildContext context) {
     final bodyWeightData = [
       new BodyWeightData(new DateTime(2021, 8, 8), 35.0),
       new BodyWeightData(new DateTime(2021, 8, 9), 35.3),
@@ -81,7 +74,7 @@ class _RecordListPageState extends State<RecordListPage> {
             Container(
               height: 60.0,
               child: Consumer(builder: (context, watch, child) {
-                final List<Bird>? birds = watch(_birdListProvider).birds;
+                final List<Bird>? birds = _provider.birds;
               
                 if (birds == null) {
                   return CircularProgressIndicator();
@@ -97,6 +90,7 @@ class _RecordListPageState extends State<RecordListPage> {
                     imageUrl: bird.imageUrl,
                   )
                 ).toList();
+
                 return ListView(
                   scrollDirection: Axis.horizontal,
                   children: widgets,
