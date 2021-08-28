@@ -1,8 +1,12 @@
 import 'package:BirdHealthcare/models/add_record_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/cupertino.dart';
+
+final _addRecordProvider = ChangeNotifierProvider<AddRecordModel>(
+  (ref) => AddRecordModel(),
+);
 
 class AddRecordPage extends StatefulWidget {
   @override
@@ -21,9 +25,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
   @override
   Widget build(BuildContext context) {
     // template start
-    return ChangeNotifierProvider<AddRecordModel>(
-      create: (_) => AddRecordModel(),
-      child: Scaffold(
+    return Scaffold(
         // organism start
         appBar: AppBar(
           title: Text('記録登録'),
@@ -32,7 +34,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
         // organism end
         // organism start
         body: Center(
-          child: Consumer<AddRecordModel>(builder: (context, model, child) {
+          child: Consumer(builder: (context, watch, child) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -83,7 +85,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                        await model.addRecord();
+                        await watch(_addRecordProvider).addRecord();
                         Navigator.of(context).pop(true);
                         final snackBar = SnackBar(
                           backgroundColor: Colors.green,
@@ -107,8 +109,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
           }),
         ),
         // organism end
-      ),
-    );
+      );
     // template end
   }
 

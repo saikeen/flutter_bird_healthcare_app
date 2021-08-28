@@ -4,8 +4,12 @@ import 'package:BirdHealthcare/models/bird_list_model.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'add_record_page.dart';
+
+final _birdListProvider = ChangeNotifierProvider<BirdListModel>(
+  (ref) => BirdListModel()..fetchBirdList(),
+);
 
 class RecordListPage extends StatefulWidget {
   @override
@@ -62,117 +66,112 @@ class _RecordListPageState extends State<RecordListPage> {
     }
 
     // template start
-    return ChangeNotifierProvider<BirdListModel>(
-      create: (_) => BirdListModel()..fetchBirdList(),
-      child: Scaffold(
-        // organism start
-        appBar: AppBar(
-          title: Text("ホーム"),
-          elevation: 0,
-        ),
-        // organism end
-        // organism start
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              // molecule start
-              Container(
-                height: 60.0,
-                child: Consumer<BirdListModel>(builder: (context, model, child) {
-                  final List<Bird>? birds = model.birds;
-    
-                  if (birds == null) {
-                    return CircularProgressIndicator();
-                  }
-    
-                  final List<Widget> widgets = birds.map((bird) =>
-                    // atom start
-                    StylableCircleAbatarButton(
-                      style: CircleAbatarButtonStyle(
-                        backgroundColor: Colors.grey.shade200,
-                        size: 60
-                      ),
-                      text: bird.name,
-                      imageUrl: bird.imageUrl,
-                    )
-                    // atom end
-                  ).toList();
-                  return ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: widgets,
-                  );
-                }),
-              ),
-              // molecule end
-              // molecule start
-              Container(
-                height: 250.0,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          "体重",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        SizedBox(height: 20,),
-                        Expanded(
-                          child: new charts.TimeSeriesChart(_getBodyWeightData(), animate: true,),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ),
-              // molecule end
-              // molecule start
-              Container(
-                height: 250.0,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          "食事量",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        SizedBox(height: 20,),
-                        Expanded(
-                          child: new charts.TimeSeriesChart(_getFoodWeightData(), animate: true,),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ),
-              // molecule end
-            ],
-          ),
-        ),
-        // organism end
-        // organism start
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async => {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddRecordPage(),
-                fullscreenDialog: true,
-              ),
-            ),
-          },
-          label: const Text('追加'),
-          icon: const Icon(Icons.add),
-          backgroundColor: Colors.pink,
-        ),
-        // organism end
+    return Scaffold(
+      // organism start
+      appBar: AppBar(
+        title: Text("ホーム"),
+        elevation: 0,
       ),
+      // organism end
+      // organism start
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            // molecule start
+            Container(
+              height: 60.0,
+              child: Consumer(builder: (context, watch, child) {
+                final List<Bird>? birds = watch(_birdListProvider).birds;
+              
+                if (birds == null) {
+                  return CircularProgressIndicator();
+                }
+
+                final List<Widget> widgets = birds.map(
+                  (bird) => StylableCircleAbatarButton(
+                    style: CircleAbatarButtonStyle(
+                      backgroundColor: Colors.grey.shade200,
+                      size: 60
+                    ),
+                    text: bird.name,
+                    imageUrl: bird.imageUrl,
+                  )
+                ).toList();
+                return ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: widgets,
+                );
+              }),
+            ),
+            // molecule end
+            // molecule start
+            Container(
+              height: 250.0,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "体重",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Expanded(
+                        child: new charts.TimeSeriesChart(_getBodyWeightData(), animate: true,),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ),
+            // molecule end
+            // molecule start
+            Container(
+              height: 250.0,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "食事量",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Expanded(
+                        child: new charts.TimeSeriesChart(_getFoodWeightData(), animate: true,),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ),
+            // molecule end
+          ],
+        ),
+      ),
+      // organism end
+      // organism start
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async => {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddRecordPage(),
+              fullscreenDialog: true,
+            ),
+          ),
+        },
+        label: const Text('追加'),
+        icon: const Icon(Icons.add),
+        backgroundColor: Colors.pink,
+      ),
+      // organism end
     );
     // template end
   }
