@@ -61,17 +61,21 @@ class _RecordListPageState extends State<RecordListPage> {
       return series;
     }
 
+    // template start
     return ChangeNotifierProvider<BirdListModel>(
       create: (_) => BirdListModel()..fetchBirdList(),
       child: Scaffold(
+        // organism start
         appBar: AppBar(
           title: Text("ホーム"),
           elevation: 0,
         ),
+        // organism end
+        // organism start
         body: Container(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              // molecule start
               Container(
                 height: 60.0,
                 child: Consumer<BirdListModel>(builder: (context, model, child) {
@@ -81,8 +85,9 @@ class _RecordListPageState extends State<RecordListPage> {
                     return CircularProgressIndicator();
                   }
     
-                  final List<Widget> widgets = birds.map(
-                    (bird) => StylableCircleAbatarButton(
+                  final List<Widget> widgets = birds.map((bird) =>
+                    // atom start
+                    StylableCircleAbatarButton(
                       style: CircleAbatarButtonStyle(
                         backgroundColor: Colors.grey.shade200,
                         size: 60
@@ -90,6 +95,7 @@ class _RecordListPageState extends State<RecordListPage> {
                       text: bird.name,
                       imageUrl: bird.imageUrl,
                     )
+                    // atom end
                   ).toList();
                   return ListView(
                     scrollDirection: Axis.horizontal,
@@ -97,6 +103,8 @@ class _RecordListPageState extends State<RecordListPage> {
                   );
                 }),
               ),
+              // molecule end
+              // molecule start
               Container(
                 height: 250.0,
                 child: Card(
@@ -119,6 +127,8 @@ class _RecordListPageState extends State<RecordListPage> {
                   ),
                 )
               ),
+              // molecule end
+              // molecule start
               Container(
                 height: 250.0,
                 child: Card(
@@ -141,9 +151,12 @@ class _RecordListPageState extends State<RecordListPage> {
                   ),
                 )
               ),
+              // molecule end
             ],
           ),
         ),
+        // organism end
+        // organism start
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async => {
             await Navigator.push(
@@ -158,8 +171,10 @@ class _RecordListPageState extends State<RecordListPage> {
           icon: const Icon(Icons.add),
           backgroundColor: Colors.pink,
         ),
+        // organism end
       ),
     );
+    // template end
   }
 }
 

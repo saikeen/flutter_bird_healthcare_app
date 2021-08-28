@@ -20,20 +20,28 @@ class _AddRecordPageState extends State<AddRecordPage> {
 
   @override
   Widget build(BuildContext context) {
+    // template start
     return ChangeNotifierProvider<AddRecordModel>(
       create: (_) => AddRecordModel(),
       child: Scaffold(
+        // organism start
         appBar: AppBar(
           title: Text('記録登録'),
           elevation: 0,
         ),
+        // organism end
+        // organism start
         body: Center(
           child: Consumer<AddRecordModel>(builder: (context, model, child) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  // molecule start
+                  // atom start
                   Text(selectDecimalNumbarOfBodyWeight),
+                  // atom end
+                  // atom start
                   ElevatedButton(
                     onPressed: () async {
                       final String selectDecimalNumbar = await showModalPicker(context);
@@ -45,10 +53,16 @@ class _AddRecordPageState extends State<AddRecordPage> {
                       }
                     }, child: Text('体重を選択'),
                   ),
+                  // atom end
+                  // molecule end
                   SizedBox(
                     height: 16,
                   ),
+                  // molecule start
+                  // atom start
                   Text(selectDecimalNumbarOfFoodWeight),
+                  // atom end
+                  // atom start
                   ElevatedButton(
                     onPressed: () async {
                       final String selectDecimalNumbar = await showModalPicker(context);
@@ -60,9 +74,12 @@ class _AddRecordPageState extends State<AddRecordPage> {
                       }
                     }, child: Text('食事量を選択'),
                   ),
+                  // atom end
+                  // molecule end
                   SizedBox(
                     height: 16,
                   ),
+                  // atom start
                   ElevatedButton(
                     onPressed: () async {
                       try {
@@ -82,14 +99,17 @@ class _AddRecordPageState extends State<AddRecordPage> {
                       }
                     },
                     child: Text('追加する'),
-                  )
+                  ),
+                  // atom end
                 ],
               ),
             );
           }),
         ),
+        // organism end
       ),
     );
+    // template end
   }
 
   Future showModalPicker(

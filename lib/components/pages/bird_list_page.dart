@@ -18,13 +18,17 @@ class _BirdListPageState extends State<BirdListPage> {
 
   @override
   Widget build(BuildContext context) {
+    // template start
     return ChangeNotifierProvider<BirdListModel>(
       create: (_) => BirdListModel()..fetchBirdList(),
       child: Scaffold(
+        // organism start
         appBar: AppBar(
           title: Text('愛鳥管理'),
           elevation: 0,
         ),
+        // organism end
+        // organism start
         body: Center(
           child: Consumer<BirdListModel>(builder: (context, model, child) {
             final List<Bird>? birds = model.birds;
@@ -33,9 +37,11 @@ class _BirdListPageState extends State<BirdListPage> {
               return CircularProgressIndicator();
             }
 
-            final List<Widget> widgets = birds.map(
-              (bird) => Slidable(
+            final List<Widget> widgets = birds.map((bird) =>
+              // molecule start
+              Slidable(
                 actionPane: SlidableDrawerActionPane(),
+                // atom start
                 child: ListTile(
                   title: Text(bird.name),
                   subtitle: Text('生年月日: ${formatter.format(bird.birthDate)}'),
@@ -48,6 +54,8 @@ class _BirdListPageState extends State<BirdListPage> {
                     ),
                   ),
                 ),
+                // atom end
+                // atom start
                 secondaryActions: <Widget>[
                   IconSlideAction(
                     caption: '編集',
@@ -80,33 +88,39 @@ class _BirdListPageState extends State<BirdListPage> {
                     },
                   ),
                 ],
+                // atom end
               )
+              // molecule end
             ).toList();
             return ListView(
               children: widgets,
             );
           }),
+
         ),
+        // organism end
+        // organism start
         floatingActionButton: Consumer<BirdListModel>(builder: (context, model, child) {
-            return FloatingActionButton.extended(
-              onPressed: () async => {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddBirdPage(),
-                    fullscreenDialog: true,
-                  ),
+          return FloatingActionButton.extended(
+            onPressed: () async => {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddBirdPage(),
+                  fullscreenDialog: true,
                 ),
-                model.fetchBirdList()
-              },
-              label: const Text('追加'),
-              icon: const Icon(Icons.add),
-              backgroundColor: Colors.pink,
-            );
-          }
-        ),
+              ),
+              model.fetchBirdList()
+            },
+            label: const Text('追加'),
+            icon: const Icon(Icons.add),
+            backgroundColor: Colors.pink,
+          );
+        }),
+        // organism end
       ),
     );
+    // template end
   }
   Future showConfirmDialog(
     BuildContext context,
