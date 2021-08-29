@@ -3,10 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EditBirdModel extends ChangeNotifier {
-  final Bird bird;
+  final Bird? bird;
   EditBirdModel(this.bird) {
-    nameController.text = bird.name;
-    imageUrlController.text = bird.imageUrl;
+    nameController.text = bird!.name;
+    imageUrlController.text = bird!.imageUrl;
   }
 
   final nameController = TextEditingController();
@@ -40,7 +40,7 @@ class EditBirdModel extends ChangeNotifier {
     this.imageUrl = imageUrlController.text;
 
     // Firestoreに追加
-    await FirebaseFirestore.instance.collection('birds').doc(bird.id).update({
+    await FirebaseFirestore.instance.collection('birds').doc(bird!.id).update({
       'name': name,
       'imageUrl': imageUrl,
       'birthDate': birthDate,

@@ -1,24 +1,17 @@
-import 'package:BirdHealthcare/models/add_bird_model.dart';
+import 'package:BirdHealthcare/providers/add_bird_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final _addBirdProvider = ChangeNotifierProvider<AddBirdModel>(
-  (ref) => AddBirdModel(),
-);
-
-class AddBirdPage extends StatefulWidget {
-  @override
-  _AddBirdPageState createState() => _AddBirdPageState();
-}
-
-class _AddBirdPageState extends State<AddBirdPage> {
-  DateTime birthDate = DateTime.now();
+class AddBirdPage extends HookConsumerWidget {
   var formatter = DateFormat('yyyy/MM/dd');
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final birthDate = useState(DateTime.now());
+
     return Scaffold(
       appBar: AppBar(
         title: Text('愛鳥登録'),
@@ -35,7 +28,7 @@ class _AddBirdPageState extends State<AddBirdPage> {
                     hintText: '愛鳥の名前',
                   ),
                   onChanged: (text) {
-                    watch(_addBirdProvider).name = text;
+                    ref.watch(addBirdProvider).name = text;
                   },
                 ),
                 SizedBox(
@@ -46,13 +39,13 @@ class _AddBirdPageState extends State<AddBirdPage> {
                     hintText: '愛鳥の画像URL',
                   ),
                   onChanged: (text) {
-                    watch(_addBirdProvider).imageUrl = text;
+                    ref.watch(addBirdProvider).imageUrl = text;
                   },
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                Text(formatter.format(birthDate)),
+                Text(formatter.format(birthDate.value)),
                 TextButton(
                   onPressed: () {
                     DatePicker.showDatePicker(
@@ -65,12 +58,10 @@ class _AddBirdPageState extends State<AddBirdPage> {
                       },
                       onConfirm: (date) {
                         print('confirm $date');
-                        setState(() {
-                          birthDate = date;
-                        });
-                        watch(_addBirdProvider).birthDate = date;
+                        birthDate.value = date;
+                        ref.watch(addBirdProvider).birthDate = date;
                       },
-                      currentTime: birthDate, locale: LocaleType.jp);
+                      currentTime: birthDate.value, locale: LocaleType.jp);
                   },
                   child: Text(
                     '生年月日を入力',
@@ -83,7 +74,7 @@ class _AddBirdPageState extends State<AddBirdPage> {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      await watch(_addBirdProvider).addBird();
+                      await ref.watch(addBirdProvider).addBird();
                       Navigator.of(context).pop(true);
                       final snackBar = SnackBar(
                         backgroundColor: Colors.green,

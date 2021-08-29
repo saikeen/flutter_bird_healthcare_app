@@ -1,29 +1,20 @@
-import 'package:BirdHealthcare/models/add_record_model.dart';
+import 'package:BirdHealthcare/providers/add_record_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/cupertino.dart';
 
-final _addRecordProvider = ChangeNotifierProvider<AddRecordModel>(
-  (ref) => AddRecordModel(),
-);
-
-class AddRecordPage extends StatefulWidget {
-  @override
-  _AddRecordPageState createState() => _AddRecordPageState();
-}
-
-class _AddRecordPageState extends State<AddRecordPage> {
-  DateTime birthDate = DateTime.now();
-  var formatter = DateFormat('yyyy/MM/dd');
-
+class AddRecordPage extends HookConsumerWidget {
   final numbars = List<String>.generate(100, (index) => '$index');
   final firstDecimalPlaceNumbers = List<String>.generate(10, (index) => '$index');
-  String selectDecimalNumbarOfBodyWeight = '0.0';
-  String selectDecimalNumbarOfFoodWeight = '0.0';
+  var formatter = DateFormat('yyyy/MM/dd');
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectDecimalNumbarOfBodyWeight = useState('0.0');
+    final selectDecimalNumbarOfFoodWeight = useState('0.0');
+
     // template start
     return Scaffold(
         // organism start
@@ -41,18 +32,14 @@ class _AddRecordPageState extends State<AddRecordPage> {
                 children: [
                   // molecule start
                   // atom start
-                  Text(selectDecimalNumbarOfBodyWeight),
+                  Text(selectDecimalNumbarOfBodyWeight.value),
                   // atom end
                   // atom start
                   ElevatedButton(
                     onPressed: () async {
                       final String selectDecimalNumbar = await showModalPicker(context);
 
-                      if (selectDecimalNumbar != null) {
-                        setState(() {
-                          selectDecimalNumbarOfBodyWeight = selectDecimalNumbar;
-                        });
-                      }
+                      selectDecimalNumbarOfBodyWeight.value = selectDecimalNumbar;
                     }, child: Text('体重を選択'),
                   ),
                   // atom end
@@ -62,18 +49,14 @@ class _AddRecordPageState extends State<AddRecordPage> {
                   ),
                   // molecule start
                   // atom start
-                  Text(selectDecimalNumbarOfFoodWeight),
+                  Text(selectDecimalNumbarOfFoodWeight.value),
                   // atom end
                   // atom start
                   ElevatedButton(
                     onPressed: () async {
                       final String selectDecimalNumbar = await showModalPicker(context);
 
-                      if (selectDecimalNumbar != null) {
-                        setState(() {
-                          selectDecimalNumbarOfFoodWeight = selectDecimalNumbar;
-                        });
-                      }
+                      selectDecimalNumbarOfFoodWeight.value = selectDecimalNumbar;
                     }, child: Text('食事量を選択'),
                   ),
                   // atom end
@@ -85,7 +68,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                        await watch(_addRecordProvider).addRecord();
+                        await ref.watch(addRecordProvider).addRecord();
                         Navigator.of(context).pop(true);
                         final snackBar = SnackBar(
                           backgroundColor: Colors.green,
@@ -113,11 +96,9 @@ class _AddRecordPageState extends State<AddRecordPage> {
     // template end
   }
 
-  Future showModalPicker(
-    BuildContext context,
-  ) {
-    String selectNumbar = '0';
-    String selectFirstDecimalPlaceNumber = '0';
+  Future showModalPicker(BuildContext context) {
+    final selectNumbar = useState('0');
+    final selectFirstDecimalPlaceNumber = useState('0');
 
     return showModalBottomSheet(
       context: context,
@@ -129,7 +110,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
             children: [
               TextButton(
                 child: const Text('閉じる'),
-                onPressed: () => Navigator.of(context).pop(selectNumbar + '.' + selectFirstDecimalPlaceNumber),
+                onPressed: () => Navigator.of(context).pop(selectNumbar.value + '.' + selectFirstDecimalPlaceNumber.value),
               ),
               const Divider(),
               Expanded(
@@ -142,9 +123,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
                         scrollController:
                             FixedExtentScrollController(initialItem: 0),
                         onSelectedItemChanged: (index) {
-                          setState(() {
-                            selectNumbar = numbars[index];
-                          });
+                          selectNumbar.value = numbars[index];
                         },
                         children: numbars
                             .map((numbar) => new Text(numbar))
@@ -157,9 +136,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
                         scrollController:
                             FixedExtentScrollController(initialItem: 0),
                         onSelectedItemChanged: (index) {
-                          setState(() {
-                            selectFirstDecimalPlaceNumber = firstDecimalPlaceNumbers[index];
-                          });
+                          selectFirstDecimalPlaceNumber.value = firstDecimalPlaceNumbers[index];
                         },
                         children: firstDecimalPlaceNumbers
                             .map((numbar) => new Text(numbar))

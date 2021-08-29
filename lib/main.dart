@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'components/pages/bird_list_page.dart';
 import 'components/pages/record_list_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,29 +27,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
+class HomePage extends HookConsumerWidget {
   static List<Widget> _pageList = [
     RecordListPage(),
     BirdListPage(),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = useState(0);
+
+    void _onItemTapped(int index) {
+      selectedIndex.value = index;
+    }
+
     return Scaffold(
-      body: _pageList[_selectedIndex],
+      body: _pageList[selectedIndex.value],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -61,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             label: '愛鳥管理',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex.value,
         onTap: _onItemTapped,
       ),
     );

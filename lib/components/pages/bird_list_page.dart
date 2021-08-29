@@ -1,17 +1,18 @@
-import 'package:BirdHealthcare/controllers/bird_list_controller.dart';
 import 'package:BirdHealthcare/domain/bird.dart';
+import 'package:BirdHealthcare/models/bird_list_model.dart';
+import 'package:BirdHealthcare/providers/bird_list_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'add_bird_page.dart';
 import 'edit_bird_page.dart';
 
-class BirdListPage extends ConsumerWidget {
+class BirdListPage extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var formatter = DateFormat('yyyy/MM/dd');
-    final _provider = watch(birdListProvider);
+    final _provider = ref.watch(birdListProvider);
 
     // template start
     return Scaffold(
@@ -117,7 +118,7 @@ class BirdListPage extends ConsumerWidget {
   Future showConfirmDialog(
     BuildContext context,
     Bird bird,
-    BirdListController model,
+    BirdListModel model,
   ) {
     return showDialog(
       context: context,

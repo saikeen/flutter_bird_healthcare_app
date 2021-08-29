@@ -1,16 +1,16 @@
 import 'package:BirdHealthcare/components/atoms/circle_avatar_button.dart';
-import 'package:BirdHealthcare/controllers/bird_list_controller.dart';
 import 'package:BirdHealthcare/domain/bird.dart';
+import 'package:BirdHealthcare/providers/bird_list_provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'add_record_page.dart';
 
-class RecordListPage extends ConsumerWidget {
+class RecordListPage extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final _provider = watch(birdListProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _provider = ref.watch(birdListProvider);
 
     final bodyWeightData = [
       new BodyWeightData(new DateTime(2021, 8, 8), 35.0),
