@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'add_record_page.dart';
+import 'package:BirdHealthcare/providers/select_bird_provider.dart';
 
 class RecordListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.watch(birdListProvider);
+    final _birdListProvider = ref.watch(birdListProvider);
+    final _selectBirdProvider = ref.watch(selectBirdProvider);
 
     final bodyWeightData = [
       new BodyWeightData(new DateTime(2021, 8, 8), 35.0),
@@ -62,7 +64,7 @@ class RecordListPage extends HookConsumerWidget {
     return Scaffold(
       // organism start
       appBar: AppBar(
-        title: Text("ホーム"),
+        title: _selectBirdProvider.name.isEmpty ? Text('ホーム') : Text('${_selectBirdProvider.name}のグラフ'),
         elevation: 0,
       ),
       // organism end
@@ -74,7 +76,7 @@ class RecordListPage extends HookConsumerWidget {
             Container(
               height: 60.0,
               child: Consumer(builder: (context, watch, child) {
-                final List<Bird>? birds = _provider.birds;
+                final List<Bird>? birds = _birdListProvider.birds;
               
                 if (birds == null) {
                   return CircularProgressIndicator();
@@ -88,6 +90,9 @@ class RecordListPage extends HookConsumerWidget {
                     ),
                     text: bird.name,
                     imageUrl: bird.imageUrl,
+                    onPressed: () {
+                      ref.watch(selectBirdProvider).setName(bird.name);
+                    },
                   )
                 ).toList();
 

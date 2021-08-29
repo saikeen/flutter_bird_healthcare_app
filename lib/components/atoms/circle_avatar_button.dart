@@ -14,6 +14,7 @@ class CircleAbatarButtonStyle {
 
 class StylableCircleAbatarButton extends StatelessWidget {
   const StylableCircleAbatarButton({
+    required this.onPressed,
     Key? key,
     this.style = const CircleAbatarButtonStyle(),
     this.text,
@@ -21,6 +22,7 @@ class StylableCircleAbatarButton extends StatelessWidget {
   }) : super(key: key);
 
   final CircleAbatarButtonStyle style;
+  final VoidCallback? onPressed;
   final String? text;
   final String? imageUrl;
 
@@ -44,7 +46,7 @@ class StylableCircleAbatarButton extends StatelessWidget {
           width: style.size,
           height: style.size,
           child: RawMaterialButton(
-            onPressed: () {},
+            onPressed: onPressed,
             shape: CircleBorder(),
           ),
         ),
