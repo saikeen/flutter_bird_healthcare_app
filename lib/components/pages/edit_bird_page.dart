@@ -15,7 +15,7 @@ class EditBirdPage extends StatefulWidget {
 
 class _EditBirdPageState extends State<EditBirdPage> {
   DateTime birthDate = DateTime.now();
-  var formatter = DateFormat('yyyy/MM/dd');
+  final formatter = DateFormat('yyyy/MM/dd');
 
   @override
   Widget build(BuildContext context) {

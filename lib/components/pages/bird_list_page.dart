@@ -9,9 +9,10 @@ import 'add_bird_page.dart';
 import 'edit_bird_page.dart';
 
 class BirdListPage extends HookConsumerWidget {
+  final formatter = DateFormat('yyyy/MM/dd');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var formatter = DateFormat('yyyy/MM/dd');
     final _provider = ref.watch(birdListProvider);
 
     // template start

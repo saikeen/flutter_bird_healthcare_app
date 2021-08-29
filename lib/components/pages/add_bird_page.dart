@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class AddBirdPage extends HookConsumerWidget {
-  var formatter = DateFormat('yyyy/MM/dd');
+  final formatter = DateFormat('yyyy/MM/dd');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 class AddRecordPage extends HookConsumerWidget {
   final numbars = List<String>.generate(100, (index) => '$index');
   final firstDecimalPlaceNumbers = List<String>.generate(10, (index) => '$index');
-  var formatter = DateFormat('yyyy/MM/dd');
+  final formatter = DateFormat('yyyy/MM/dd');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
