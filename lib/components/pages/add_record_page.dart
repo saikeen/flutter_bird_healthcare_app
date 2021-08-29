@@ -14,6 +14,8 @@ class AddRecordPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectDecimalNumbarOfBodyWeight = useState('0.0');
     final selectDecimalNumbarOfFoodWeight = useState('0.0');
+    final selectNumbar = useState('0');
+    final selectFirstDecimalPlaceNumber = useState('0');
 
     // template start
     return Scaffold(
@@ -37,7 +39,7 @@ class AddRecordPage extends HookConsumerWidget {
                   // atom start
                   ElevatedButton(
                     onPressed: () async {
-                      final String selectDecimalNumbar = await showModalPicker(context);
+                      final String selectDecimalNumbar = await showModalPicker(context, selectNumbar, selectFirstDecimalPlaceNumber);
 
                       selectDecimalNumbarOfBodyWeight.value = selectDecimalNumbar;
                     }, child: Text('体重を選択'),
@@ -54,7 +56,7 @@ class AddRecordPage extends HookConsumerWidget {
                   // atom start
                   ElevatedButton(
                     onPressed: () async {
-                      final String selectDecimalNumbar = await showModalPicker(context);
+                      final String selectDecimalNumbar = await showModalPicker(context, selectNumbar, selectFirstDecimalPlaceNumber);
 
                       selectDecimalNumbarOfFoodWeight.value = selectDecimalNumbar;
                     }, child: Text('食事量を選択'),
@@ -96,10 +98,7 @@ class AddRecordPage extends HookConsumerWidget {
     // template end
   }
 
-  Future showModalPicker(BuildContext context) {
-    final selectNumbar = useState('0');
-    final selectFirstDecimalPlaceNumber = useState('0');
-
+  Future showModalPicker(BuildContext context, selectNumbar, selectFirstDecimalPlaceNumber) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
