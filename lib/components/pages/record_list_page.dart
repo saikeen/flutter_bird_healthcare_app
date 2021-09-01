@@ -1,9 +1,8 @@
-import 'package:BirdHealthcare/components/atoms/circle_avatar_button.dart';
-import 'package:BirdHealthcare/domain/bird.dart';
+import 'package:BirdHealthcare/components/molecules/circle_avatar_list_view.dart';
+import 'package:BirdHealthcare/components/molecules/graph_panel.dart';
 import 'package:BirdHealthcare/providers/bird_list_provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'add_record_page.dart';
 import 'package:BirdHealthcare/providers/select_bird_provider.dart';
@@ -15,46 +14,46 @@ class RecordListPage extends HookConsumerWidget {
     final _selectBirdProvider = ref.watch(selectBirdProvider);
 
     final bodyWeightData = [
-      new BodyWeightData(new DateTime(2021, 8, 8), 35.0),
-      new BodyWeightData(new DateTime(2021, 8, 9), 35.3),
-      new BodyWeightData(new DateTime(2021, 8, 10), 35.3),
-      new BodyWeightData(new DateTime(2021, 8, 11), 35.0),
-      new BodyWeightData(new DateTime(2021, 8, 12), 34.5),
-      new BodyWeightData(new DateTime(2021, 8, 13), 34.5),
-      new BodyWeightData(new DateTime(2021, 8, 14), 35.0),
+      new WeightData(new DateTime(2021, 8, 8), 35.0),
+      new WeightData(new DateTime(2021, 8, 9), 35.3),
+      new WeightData(new DateTime(2021, 8, 10), 35.3),
+      new WeightData(new DateTime(2021, 8, 11), 35.0),
+      new WeightData(new DateTime(2021, 8, 12), 34.5),
+      new WeightData(new DateTime(2021, 8, 13), 34.5),
+      new WeightData(new DateTime(2021, 8, 14), 35.0),
     ];
 
     final foodWeightData = [
-      new FoodWeightData(new DateTime(2021, 8, 8), 3),
-      new FoodWeightData(new DateTime(2021, 8, 9), 3),
-      new FoodWeightData(new DateTime(2021, 8, 10), 3),
-      new FoodWeightData(new DateTime(2021, 8, 11), 3),
-      new FoodWeightData(new DateTime(2021, 8, 12), 3),
-      new FoodWeightData(new DateTime(2021, 8, 13), 3),
-      new FoodWeightData(new DateTime(2021, 8, 14), 3),
+      new WeightData(new DateTime(2021, 8, 8), 3),
+      new WeightData(new DateTime(2021, 8, 9), 3),
+      new WeightData(new DateTime(2021, 8, 10), 3),
+      new WeightData(new DateTime(2021, 8, 11), 3),
+      new WeightData(new DateTime(2021, 8, 12), 3),
+      new WeightData(new DateTime(2021, 8, 13), 3),
+      new WeightData(new DateTime(2021, 8, 14), 3),
     ];
 
     _getBodyWeightData() {
-      List<charts.Series<BodyWeightData, DateTime>> series = [
+      List<charts.Series<WeightData, DateTime>> series = [
         charts.Series(
           id: "Sales",
           data: bodyWeightData,
-          domainFn: (BodyWeightData bodyWeight, _) => bodyWeight.time,
-          measureFn: (BodyWeightData bodyWeight, _) => bodyWeight.sales,
-          colorFn: (BodyWeightData bodyWeight, _) => charts.MaterialPalette.blue.shadeDefault
+          domainFn: (WeightData bodyWeight, _) => bodyWeight.time,
+          measureFn: (WeightData bodyWeight, _) => bodyWeight.sales,
+          colorFn: (WeightData bodyWeight, _) => charts.MaterialPalette.blue.shadeDefault
         )
       ];
       return series;
     }
 
     _getFoodWeightData() {
-      List<charts.Series<FoodWeightData, DateTime>> series = [
+      List<charts.Series<WeightData, DateTime>> series = [
         charts.Series(
           id: "Sales",
           data: foodWeightData,
-          domainFn: (FoodWeightData foodWeight, _) => foodWeight.time,
-          measureFn: (FoodWeightData foodWeight, _) => foodWeight.sales,
-          colorFn: (FoodWeightData foodWeight, _) => charts.MaterialPalette.blue.shadeDefault
+          domainFn: (WeightData foodWeight, _) => foodWeight.time,
+          measureFn: (WeightData foodWeight, _) => foodWeight.sales,
+          colorFn: (WeightData foodWeight, _) => charts.MaterialPalette.blue.shadeDefault
         )
       ];
       return series;
@@ -72,85 +71,9 @@ class RecordListPage extends HookConsumerWidget {
       body: Container(
         child: Column(
           children: <Widget>[
-            // molecule start
-            Container(
-              height: 60.0,
-              child: Consumer(builder: (context, watch, child) {
-                final List<Bird>? birds = _birdListProvider.birds;
-              
-                if (birds == null) {
-                  return CircularProgressIndicator();
-                }
-
-                final List<Widget> widgets = birds.map(
-                  (bird) => StylableCircleAbatarButton(
-                    style: CircleAbatarButtonStyle(
-                      backgroundColor: Colors.grey.shade200,
-                      size: 60
-                    ),
-                    text: bird.name,
-                    imageUrl: bird.imageUrl,
-                    onPressed: () {
-                      ref.watch(selectBirdProvider).setName(bird.name);
-                    },
-                  )
-                ).toList();
-
-                return ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: widgets,
-                );
-              }),
-            ),
-            // molecule end
-            // molecule start
-            Container(
-              height: 250.0,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "体重",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Expanded(
-                        child: new charts.TimeSeriesChart(_getBodyWeightData(), animate: true,),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ),
-            // molecule end
-            // molecule start
-            Container(
-              height: 250.0,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "食事量",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Expanded(
-                        child: new charts.TimeSeriesChart(_getFoodWeightData(), animate: true,),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ),
-            // molecule end
+            StylableCircleAbatarListView(data: _birdListProvider),
+            StylableGraphPanel(title: "体重", data: _getBodyWeightData()),
+            StylableGraphPanel(title: "食事量", data: _getFoodWeightData()),
           ],
         ),
       ),
@@ -176,16 +99,9 @@ class RecordListPage extends HookConsumerWidget {
   }
 }
 
-class BodyWeightData {
+class WeightData {
   final DateTime time;
   final double sales;
 
-  BodyWeightData(this.time, this.sales);
-}
-
-class FoodWeightData {
-  final DateTime time;
-  final int sales;
-
-  FoodWeightData(this.time, this.sales);
+  WeightData(this.time, this.sales);
 }
