@@ -15,6 +15,10 @@ class AddBirdModel extends ChangeNotifier {
       throw '画像URLが入力されていません';
     }
 
+    if (birthDate == null) {
+      throw '生年月日が選択されていません';
+    }
+
     // Firestoreに追加
     await FirebaseFirestore.instance.collection('birds').add({
       'name': name,

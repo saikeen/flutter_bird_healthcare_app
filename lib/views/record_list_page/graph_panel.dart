@@ -1,4 +1,4 @@
-import 'package:BirdHealthcare/components/pages/record_list_page.dart';
+import 'package:BirdHealthcare/views/record_list_page/record_list_page.dart';
 import 'package:charts_flutter/flutter.dart';
 import "package:flutter/material.dart";
 import 'package:hooks_riverpod/hooks_riverpod.dart';

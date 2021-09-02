@@ -11,6 +11,7 @@ class AddBirdPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final birthDate = useState(DateTime.now());
+    ref.watch(addBirdProvider).birthDate = DateTime.now();
 
     return Scaffold(
       appBar: AppBar(
@@ -53,11 +54,7 @@ class AddBirdPage extends HookConsumerWidget {
                       showTitleActions: true,
                       minTime: DateTime(2010, 1, 1),
                       maxTime: DateTime(2021, 12, 31),
-                      onChanged: (date) {
-                        print('change $date');
-                      },
                       onConfirm: (date) {
-                        print('confirm $date');
                         birthDate.value = date;
                         ref.watch(addBirdProvider).birthDate = date;
                       },

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'add_bird_page.dart';
-import 'edit_bird_page.dart';
+import '../add_bird_page/add_bird_page.dart';
+import '../edit_bird_page/edit_bird_page.dart';
 
 class BirdListPage extends HookConsumerWidget {
   final formatter = DateFormat('yyyy/MM/dd');

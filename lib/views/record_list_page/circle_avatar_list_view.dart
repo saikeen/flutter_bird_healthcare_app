@@ -1,4 +1,4 @@
-import 'package:BirdHealthcare/components/atoms/circle_avatar_button.dart';
+import 'package:BirdHealthcare/views/record_list_page/circle_avatar_button.dart';
 import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:BirdHealthcare/models/bird_list_model.dart';
 import 'package:BirdHealthcare/providers/select_bird_provider.dart';

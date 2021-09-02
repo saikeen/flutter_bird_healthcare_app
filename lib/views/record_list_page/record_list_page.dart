@@ -1,10 +1,10 @@
-import 'package:BirdHealthcare/components/molecules/circle_avatar_list_view.dart';
-import 'package:BirdHealthcare/components/molecules/graph_panel.dart';
+import 'package:BirdHealthcare/views/record_list_page/circle_avatar_list_view.dart';
+import 'package:BirdHealthcare/views/record_list_page/graph_panel.dart';
 import 'package:BirdHealthcare/providers/bird_list_provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'add_record_page.dart';
+import '../add_record_page/add_record_page.dart';
 import 'package:BirdHealthcare/providers/select_bird_provider.dart';
 
 class RecordListPage extends HookConsumerWidget {
