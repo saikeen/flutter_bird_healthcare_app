@@ -6,10 +6,13 @@ final selectBirdProvider = ChangeNotifierProvider(
 );
 
 class SelectBird extends ChangeNotifier {
+  var _id = '';
   var _name = '';
+  String get id => _id;
   String get name => _name;
 
-  void setName(name) {
+  void setData(id, name) {
+    _id = id;
     _name = name;
     notifyListeners();
   }

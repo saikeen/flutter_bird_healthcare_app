@@ -42,7 +42,7 @@ class StylableCircleAbatarListView extends HookConsumerWidget {
           text: bird.name,
           imageUrl: bird.imageUrl,
           onPressed: () {
-            ref.watch(selectBirdProvider).setName(bird.name);
+            ref.watch(selectBirdProvider).setData(bird.id, bird.name);
           },
         )
       ).toList();

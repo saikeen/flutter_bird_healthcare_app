@@ -15,15 +15,11 @@ class BirdListPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _provider = ref.watch(birdListProvider);
 
-    // template start
     return Scaffold(
-      // organism start
       appBar: AppBar(
         title: Text('愛鳥管理'),
         elevation: 0,
       ),
-      // organism end
-      // organism start
       body: Center(
         child: Consumer(builder: (context, watch, child) {
           final List<Bird>? birds = _provider.birds;
@@ -33,10 +29,8 @@ class BirdListPage extends HookConsumerWidget {
           }
 
           final List<Widget> widgets = birds.map((bird) =>
-            // molecule start
             Slidable(
               actionPane: SlidableDrawerActionPane(),
-              // atom start
               child: ListTile(
                 title: Text(bird.name),
                 subtitle: Text('生年月日: ${formatter.format(bird.birthDate)}'),
@@ -49,8 +43,6 @@ class BirdListPage extends HookConsumerWidget {
                   ),
                 ),
               ),
-              // atom end
-              // atom start
               secondaryActions: <Widget>[
                 IconSlideAction(
                   caption: '編集',
@@ -83,9 +75,7 @@ class BirdListPage extends HookConsumerWidget {
                   },
                 ),
               ],
-              // atom end
             )
-            // molecule end
           ).toList();
           return ListView(
             children: widgets,
@@ -93,8 +83,6 @@ class BirdListPage extends HookConsumerWidget {
         }),
 
       ),
-      // organism end
-      // organism start
       floatingActionButton: Consumer(builder: (context, watch, child) {
         return FloatingActionButton.extended(
           onPressed: () async => {
@@ -112,9 +100,7 @@ class BirdListPage extends HookConsumerWidget {
           backgroundColor: Colors.pink,
         );
       }),
-      // organism end
     );
-    // template end
   }
   Future showConfirmDialog(
     BuildContext context,

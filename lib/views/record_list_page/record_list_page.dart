@@ -59,26 +59,21 @@ class RecordListPage extends HookConsumerWidget {
       return series;
     }
 
-    // template start
     return Scaffold(
-      // organism start
       appBar: AppBar(
         title: _selectBirdProvider.name.isEmpty ? Text('ホーム') : Text('${_selectBirdProvider.name}のグラフ'),
         elevation: 0,
       ),
-      // organism end
-      // organism start
       body: Container(
         child: Column(
           children: <Widget>[
             StylableCircleAbatarListView(data: _birdListProvider),
-            StylableGraphPanel(title: "体重", data: _getBodyWeightData()),
-            StylableGraphPanel(title: "食事量", data: _getFoodWeightData()),
+            if (_selectBirdProvider.name.isEmpty) Text("愛鳥を選択してください"),
+            if (_selectBirdProvider.name.isNotEmpty) StylableGraphPanel(title: "体重", data: _getBodyWeightData()),
+            if (_selectBirdProvider.name.isNotEmpty) StylableGraphPanel(title: "食事量", data: _getFoodWeightData()),
           ],
         ),
       ),
-      // organism end
-      // organism start
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async => {
           await Navigator.push(
@@ -93,9 +88,7 @@ class RecordListPage extends HookConsumerWidget {
         icon: const Icon(Icons.add),
         backgroundColor: Colors.pink,
       ),
-      // organism end
     );
-    // template end
   }
 }
 
