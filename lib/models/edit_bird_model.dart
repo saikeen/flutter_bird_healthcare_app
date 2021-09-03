@@ -1,12 +1,21 @@
-import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EditBirdModel extends ChangeNotifier {
-  final Bird? bird;
-  EditBirdModel(this.bird) {
-    nameController.text = bird!.name;
-    imageUrlController.text = bird!.imageUrl;
+  void fetchUserData(documentId) async{
+    if (documentId.isEmpty) {
+      nameController.text = "";
+      imageUrlController.text = "";
+    } else {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('birds').doc(documentId).get();
+      nameController.text = snapshot['name'];
+      imageUrlController.text = snapshot['imageUrl'];
+    }
+  }
+
+  final String? id;
+  EditBirdModel(this.id) {
+    fetchUserData(this.id);
   }
 
   final nameController = TextEditingController();
@@ -31,16 +40,24 @@ class EditBirdModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isUpdated() {
-    return name != null || imageUrl != null || birthDate != null;
-  }
-
   Future updateBird() async {
     this.name = nameController.text;
     this.imageUrl = imageUrlController.text;
 
+    if (name == null || name == "") {
+      throw '名前が入力されていません';
+    }
+
+    if (imageUrl == null || imageUrl == "") {
+      throw '画像URLが入力されていません';
+    }
+
+    if (birthDate == null) {
+      throw '生年月日が選択されていません';
+    }
+
     // Firestoreに追加
-    await FirebaseFirestore.instance.collection('birds').doc(bird!.id).update({
+    await FirebaseFirestore.instance.collection('birds').doc(id).update({
       'name': name,
       'imageUrl': imageUrl,
       'birthDate': birthDate,
