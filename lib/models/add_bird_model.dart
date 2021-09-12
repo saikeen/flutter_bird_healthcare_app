@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddBirdModel extends ChangeNotifier {
   String? name;
   String? imageUrl;
   DateTime? birthDate;
+  File? imageFile;
+
+  final picker = ImagePicker();
 
   Future addBird() async {
     if (name == null || name == "") {
@@ -26,5 +32,13 @@ class AddBirdModel extends ChangeNotifier {
       'birthDate': birthDate,
       'createdAt': FieldValue.serverTimestamp(),
     });
+  }
+
+  Future pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+    }
   }
 }
