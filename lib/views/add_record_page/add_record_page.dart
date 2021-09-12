@@ -8,12 +8,16 @@ import 'package:flutter/cupertino.dart';
 
 class AddRecordPage extends HookConsumerWidget {
   final numbars = List<String>.generate(100, (index) => '$index');
-  final firstDecimalPlaceNumbers = List<String>.generate(10, (index) => '$index');
+  final firstDecimalPlaceNumbers =
+      List<String>.generate(10, (index) => '$index');
   final formatter = DateFormat('yyyy/MM/dd');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final _addRecordProvider = ref.watch(addRecordProvider);
     final _selectBirdProvider = ref.watch(selectBirdProvider);
+
+    _addRecordProvider.birdId = _selectBirdProvider.id;
 
     final selectDecimalNumbarOfBodyWeight = useState('0.0');
     final selectDecimalNumbarOfFoodWeight = useState('0.0');
@@ -34,10 +38,14 @@ class AddRecordPage extends HookConsumerWidget {
                 Text(selectDecimalNumbarOfBodyWeight.value),
                 ElevatedButton(
                   onPressed: () async {
-                    final String selectDecimalNumbar = await showModalPicker(context, selectNumbar, selectFirstDecimalPlaceNumber);
+                    final String selectDecimalNumbar = await showModalPicker(
+                        context, selectNumbar, selectFirstDecimalPlaceNumber);
 
                     selectDecimalNumbarOfBodyWeight.value = selectDecimalNumbar;
-                  }, child: Text('体重を選択'),
+                    _addRecordProvider.bodyWeight =
+                        double.parse(selectDecimalNumbar);
+                  },
+                  child: Text('体重を選択'),
                 ),
                 SizedBox(
                   height: 16,
@@ -45,10 +53,14 @@ class AddRecordPage extends HookConsumerWidget {
                 Text(selectDecimalNumbarOfFoodWeight.value),
                 ElevatedButton(
                   onPressed: () async {
-                    final String selectDecimalNumbar = await showModalPicker(context, selectNumbar, selectFirstDecimalPlaceNumber);
+                    final String selectDecimalNumbar = await showModalPicker(
+                        context, selectNumbar, selectFirstDecimalPlaceNumber);
 
                     selectDecimalNumbarOfFoodWeight.value = selectDecimalNumbar;
-                  }, child: Text('食事量を選択'),
+                    _addRecordProvider.foodWeight =
+                        double.parse(selectDecimalNumbar);
+                  },
+                  child: Text('食事量を選択'),
                 ),
                 SizedBox(
                   height: 16,
@@ -63,7 +75,7 @@ class AddRecordPage extends HookConsumerWidget {
                         content: Text('愛鳥を登録しました'),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } catch(e) {
+                    } catch (e) {
                       final snackBar = SnackBar(
                         backgroundColor: Colors.red,
                         content: Text(e.toString()),
@@ -81,7 +93,8 @@ class AddRecordPage extends HookConsumerWidget {
     );
   }
 
-  Future showModalPicker(BuildContext context, selectNumbar, selectFirstDecimalPlaceNumber) {
+  Future showModalPicker(
+      BuildContext context, selectNumbar, selectFirstDecimalPlaceNumber) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -92,7 +105,9 @@ class AddRecordPage extends HookConsumerWidget {
             children: [
               TextButton(
                 child: const Text('閉じる'),
-                onPressed: () => Navigator.of(context).pop(selectNumbar.value + '.' + selectFirstDecimalPlaceNumber.value),
+                onPressed: () => Navigator.of(context).pop(selectNumbar.value +
+                    '.' +
+                    selectFirstDecimalPlaceNumber.value),
               ),
               const Divider(),
               Expanded(
@@ -107,9 +122,8 @@ class AddRecordPage extends HookConsumerWidget {
                         onSelectedItemChanged: (index) {
                           selectNumbar.value = numbars[index];
                         },
-                        children: numbars
-                            .map((numbar) => new Text(numbar))
-                            .toList(),
+                        children:
+                            numbars.map((numbar) => new Text(numbar)).toList(),
                       ),
                     ),
                     Expanded(
@@ -118,7 +132,8 @@ class AddRecordPage extends HookConsumerWidget {
                         scrollController:
                             FixedExtentScrollController(initialItem: 0),
                         onSelectedItemChanged: (index) {
-                          selectFirstDecimalPlaceNumber.value = firstDecimalPlaceNumbers[index];
+                          selectFirstDecimalPlaceNumber.value =
+                              firstDecimalPlaceNumbers[index];
                         },
                         children: firstDecimalPlaceNumbers
                             .map((numbar) => new Text(numbar))

@@ -36,12 +36,12 @@ class RecordListPage extends HookConsumerWidget {
     _getBodyWeightData() {
       List<charts.Series<WeightData, DateTime>> series = [
         charts.Series(
-          id: "Sales",
-          data: bodyWeightData,
-          domainFn: (WeightData bodyWeight, _) => bodyWeight.time,
-          measureFn: (WeightData bodyWeight, _) => bodyWeight.sales,
-          colorFn: (WeightData bodyWeight, _) => charts.MaterialPalette.blue.shadeDefault
-        )
+            id: "Sales",
+            data: bodyWeightData,
+            domainFn: (WeightData bodyWeight, _) => bodyWeight.time,
+            measureFn: (WeightData bodyWeight, _) => bodyWeight.sales,
+            colorFn: (WeightData bodyWeight, _) =>
+                charts.MaterialPalette.blue.shadeDefault)
       ];
       return series;
     }
@@ -49,19 +49,21 @@ class RecordListPage extends HookConsumerWidget {
     _getFoodWeightData() {
       List<charts.Series<WeightData, DateTime>> series = [
         charts.Series(
-          id: "Sales",
-          data: foodWeightData,
-          domainFn: (WeightData foodWeight, _) => foodWeight.time,
-          measureFn: (WeightData foodWeight, _) => foodWeight.sales,
-          colorFn: (WeightData foodWeight, _) => charts.MaterialPalette.blue.shadeDefault
-        )
+            id: "Sales",
+            data: foodWeightData,
+            domainFn: (WeightData foodWeight, _) => foodWeight.time,
+            measureFn: (WeightData foodWeight, _) => foodWeight.sales,
+            colorFn: (WeightData foodWeight, _) =>
+                charts.MaterialPalette.blue.shadeDefault)
       ];
       return series;
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: _selectBirdProvider.name.isEmpty ? Text('ホーム') : Text('${_selectBirdProvider.name}のグラフ'),
+        title: _selectBirdProvider.name.isEmpty
+            ? Text('ホーム')
+            : Text('${_selectBirdProvider.name}のグラフ'),
         elevation: 0,
       ),
       body: Container(
@@ -69,20 +71,27 @@ class RecordListPage extends HookConsumerWidget {
           children: <Widget>[
             StylableCircleAbatarListView(data: _birdListProvider),
             if (_selectBirdProvider.name.isEmpty) Text("愛鳥を選択してください"),
-            if (_selectBirdProvider.name.isNotEmpty) StylableGraphPanel(title: "体重", data: _getBodyWeightData()),
-            if (_selectBirdProvider.name.isNotEmpty) StylableGraphPanel(title: "食事量", data: _getFoodWeightData()),
+            if (_selectBirdProvider.name.isNotEmpty)
+              StylableGraphPanel(title: "体重", data: _getBodyWeightData()),
+            if (_selectBirdProvider.name.isNotEmpty)
+              StylableGraphPanel(title: "食事量", data: _getFoodWeightData()),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async => {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddRecordPage(),
-              fullscreenDialog: true,
-            ),
-          ),
+          if (_selectBirdProvider.id.isEmpty)
+            {}
+          else
+            {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddRecordPage(),
+                  fullscreenDialog: true,
+                ),
+              ),
+            }
         },
         label: const Text('追加'),
         icon: const Icon(Icons.add),
