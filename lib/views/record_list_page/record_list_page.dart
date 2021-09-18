@@ -1,3 +1,6 @@
+import 'package:BirdHealthcare/domain/weight_data.dart';
+import 'package:BirdHealthcare/models/bird_list_model.dart';
+import 'package:BirdHealthcare/providers/record_list_provider.dart';
 import 'package:BirdHealthcare/views/record_list_page/circle_avatar_list_view.dart';
 import 'package:BirdHealthcare/views/record_list_page/graph_panel.dart';
 import 'package:BirdHealthcare/providers/bird_list_provider.dart';
@@ -10,50 +13,37 @@ import 'package:BirdHealthcare/providers/select_bird_provider.dart';
 class RecordListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _birdListProvider = ref.watch(birdListProvider);
-    final _selectBirdProvider = ref.watch(selectBirdProvider);
+    BirdListModel _birdListProvider = ref.watch(birdListProvider);
+    RecordList _recordListProvider = ref.watch(recordListProvider);
+    SelectBird _selectBirdProvider = ref.watch(selectBirdProvider);
+    List<WeightData> bodyWeightDataList = [];
+    List<WeightData> foodWeightDataList = [];
 
-    final bodyWeightData = [
-      new WeightData(new DateTime(2021, 8, 8), 35.0),
-      new WeightData(new DateTime(2021, 8, 9), 35.3),
-      new WeightData(new DateTime(2021, 8, 10), 35.3),
-      new WeightData(new DateTime(2021, 8, 11), 35.0),
-      new WeightData(new DateTime(2021, 8, 12), 34.5),
-      new WeightData(new DateTime(2021, 8, 13), 34.5),
-      new WeightData(new DateTime(2021, 8, 14), 35.0),
-    ];
+    DateTime today = DateTime.now();
+    DateTime monday = today.add(Duration(days: -today.weekday + 1));
+    DateTime sunday = monday.add(Duration(days: 6));
 
-    final foodWeightData = [
-      new WeightData(new DateTime(2021, 8, 8), 3),
-      new WeightData(new DateTime(2021, 8, 9), 3),
-      new WeightData(new DateTime(2021, 8, 10), 3),
-      new WeightData(new DateTime(2021, 8, 11), 3),
-      new WeightData(new DateTime(2021, 8, 12), 3),
-      new WeightData(new DateTime(2021, 8, 13), 3),
-      new WeightData(new DateTime(2021, 8, 14), 3),
-    ];
+    _recordListProvider.fetchRecordList(_selectBirdProvider.id, monday, sunday);
 
-    _getBodyWeightData() {
-      List<charts.Series<WeightData, DateTime>> series = [
-        charts.Series(
-            id: "Sales",
-            data: bodyWeightData,
-            domainFn: (WeightData bodyWeight, _) => bodyWeight.time,
-            measureFn: (WeightData bodyWeight, _) => bodyWeight.sales,
-            colorFn: (WeightData bodyWeight, _) =>
-                charts.MaterialPalette.blue.shadeDefault)
-      ];
-      return series;
+    final records = _recordListProvider.records;
+    if (records != null) {
+      records.forEach((record) {
+        bodyWeightDataList.add(WeightData(
+            date: record.createdAt.toDate(), weight: record.bodyWeight));
+        foodWeightDataList.add(WeightData(
+            date: record.createdAt.toDate(), weight: record.foodWeight));
+      });
     }
 
-    _getFoodWeightData() {
+    List<charts.Series<WeightData, DateTime>> getGraphData(
+        List<WeightData> dataList) {
       List<charts.Series<WeightData, DateTime>> series = [
         charts.Series(
             id: "Sales",
-            data: foodWeightData,
-            domainFn: (WeightData foodWeight, _) => foodWeight.time,
-            measureFn: (WeightData foodWeight, _) => foodWeight.sales,
-            colorFn: (WeightData foodWeight, _) =>
+            data: dataList,
+            domainFn: (WeightData data, _) => data.date,
+            measureFn: (WeightData data, _) => data.weight,
+            colorFn: (WeightData data, _) =>
                 charts.MaterialPalette.blue.shadeDefault)
       ];
       return series;
@@ -72,9 +62,11 @@ class RecordListPage extends HookConsumerWidget {
             StylableCircleAbatarListView(data: _birdListProvider),
             if (_selectBirdProvider.name.isEmpty) Text("愛鳥を選択してください"),
             if (_selectBirdProvider.name.isNotEmpty)
-              StylableGraphPanel(title: "体重", data: _getBodyWeightData()),
+              StylableGraphPanel(
+                  title: "体重", data: getGraphData(bodyWeightDataList)),
             if (_selectBirdProvider.name.isNotEmpty)
-              StylableGraphPanel(title: "食事量", data: _getFoodWeightData()),
+              StylableGraphPanel(
+                  title: "食事量", data: getGraphData(foodWeightDataList)),
           ],
         ),
       ),
@@ -99,11 +91,4 @@ class RecordListPage extends HookConsumerWidget {
       ),
     );
   }
-}
-
-class WeightData {
-  final DateTime time;
-  final double sales;
-
-  WeightData(this.time, this.sales);
 }

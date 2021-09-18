@@ -24,33 +24,33 @@ class StylableCircleAbatarListView extends HookConsumerWidget {
   final BirdListModel? data;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Container(
-    height: 60.0,
-    child: Consumer(builder: (context, watch, child) {
-      final List<Bird>? birds = data!.birds;
-    
-      if (birds == null) {
-        return CircularProgressIndicator();
-      }
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      height: 60.0,
+      child: Consumer(builder: (context, watch, child) {
+        final List<Bird>? birds = data!.birds;
 
-      final List<Widget> widgets = birds.map(
-        (bird) => StylableCircleAbatarButton(
-          style: CircleAbatarButtonStyle(
-            backgroundColor: Colors.grey.shade200,
-            size: 60
-          ),
-          text: bird.name,
-          imageUrl: bird.imageUrl,
-          onPressed: () {
-            ref.watch(selectBirdProvider).setData(bird.id, bird.name);
-          },
-        )
-      ).toList();
+        if (birds == null) {
+          return CircularProgressIndicator();
+        }
 
-      return ListView(
-        scrollDirection: Axis.horizontal,
-        children: widgets,
-      );
-    }),
-  );
+        final List<Widget> widgets = birds
+            .map((bird) => StylableCircleAbatarButton(
+                  style: CircleAbatarButtonStyle(
+                      backgroundColor: Colors.grey.shade200, size: 60),
+                  text: bird.name,
+                  imageUrl: bird.imageUrl,
+                  onPressed: () {
+                    ref.watch(selectBirdProvider).setData(bird.id, bird.name);
+                  },
+                ))
+            .toList();
+
+        return ListView(
+          scrollDirection: Axis.horizontal,
+          children: widgets,
+        );
+      }),
+    );
+  }
 }

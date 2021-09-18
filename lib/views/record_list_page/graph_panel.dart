@@ -1,4 +1,4 @@
-import 'package:BirdHealthcare/views/record_list_page/record_list_page.dart';
+import 'package:BirdHealthcare/domain/weight_data.dart';
 import 'package:charts_flutter/flutter.dart';
 import "package:flutter/material.dart";
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,20 +26,24 @@ class StylableGraphPanel extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => Container(
-    height: 250.0,
-    child: Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            Text(title),
-            SizedBox(height: 20,),
-            Expanded(
-              child: new charts.TimeSeriesChart(data!, animate: true,),
-            ),
-          ],
+      height: 250.0,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Text(title),
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: new charts.TimeSeriesChart(
+                  data!,
+                  animate: true,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    )
-  );
+      ));
 }
