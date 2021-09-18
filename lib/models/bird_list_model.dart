@@ -7,9 +7,9 @@ class BirdListModel extends ChangeNotifier {
 
   void fetchBirdList() async {
     final QuerySnapshot snapshot = await FirebaseFirestore.instance
-                                                          .collection('birds')
-                                                          .orderBy('createdAt', descending: false)
-                                                          .get();
+        .collection('birds')
+        .orderBy('createdAt', descending: false)
+        .get();
 
     final List<Bird> birds = snapshot.docs.map((DocumentSnapshot document) {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;

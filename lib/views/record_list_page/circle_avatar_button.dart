@@ -28,9 +28,8 @@ class StylableCircleAbatarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    margin: style.margin,
-    child: Stack(
-      children: [
+      margin: style.margin,
+      child: Stack(children: [
         CircleAvatar(
           radius: style.size! / 2,
           child: (() {
@@ -50,7 +49,5 @@ class StylableCircleAbatarButton extends StatelessWidget {
             shape: CircleBorder(),
           ),
         ),
-      ]
-    )
-  );
+      ]));
 }

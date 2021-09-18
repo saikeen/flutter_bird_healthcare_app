@@ -50,27 +50,22 @@ class EditBirdPage extends HookConsumerWidget {
                 ),
                 Text(formatter.format(birthDate.value)),
                 TextButton(
-                  onPressed: () {
-                    DatePicker.showDatePicker(
-                      context,
-                      showTitleActions: true,
-                      minTime: DateTime(2010, 1, 1),
-                      maxTime: DateTime(2021, 12, 31),
-                      onChanged: (date) {
+                    onPressed: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime(2010, 1, 1),
+                          maxTime: DateTime(2021, 12, 31), onChanged: (date) {
                         print('change $date');
-                      },
-                      onConfirm: (date) {
+                      }, onConfirm: (date) {
                         print('confirm $date');
                         birthDate.value = date;
                         _editBirdProvider.bird.setBirthDate(date);
-                      },
-                      currentTime: birthDate.value, locale: LocaleType.jp);
-                  },
-                  child: Text(
-                    '生年月日を入力',
-                    style: TextStyle(color: Colors.blue),
-                  )
-                ),
+                      }, currentTime: birthDate.value, locale: LocaleType.jp);
+                    },
+                    child: Text(
+                      '生年月日を入力',
+                      style: TextStyle(color: Colors.blue),
+                    )),
                 SizedBox(
                   height: 16,
                 ),
@@ -80,7 +75,7 @@ class EditBirdPage extends HookConsumerWidget {
                     try {
                       await _editBirdProvider.bird.updateBird();
                       Navigator.of(context).pop(_editBirdProvider.bird.name);
-                    } catch(e) {
+                    } catch (e) {
                       final snackBar = SnackBar(
                         backgroundColor: Colors.red,
                         content: Text(e.toString()),

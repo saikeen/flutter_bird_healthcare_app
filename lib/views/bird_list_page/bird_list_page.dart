@@ -29,61 +29,61 @@ class BirdListPage extends HookConsumerWidget {
             return CircularProgressIndicator();
           }
 
-          final List<Widget> widgets = birds.map((bird) =>
-            Slidable(
-              actionPane: SlidableDrawerActionPane(),
-              child: ListTile(
-                title: Text(bird.name),
-                subtitle: Text('生年月日: ${formatter.format(bird.birthDate)}'),
-                leading: CircleAvatar(
-                  backgroundColor: Colors.grey.shade200,
-                  child: ClipOval(
-                    child: Image.network(
-                      bird.imageUrl,
-                    ),
-                  ),
-                ),
-              ),
-              secondaryActions: <Widget>[
-                IconSlideAction(
-                  caption: '編集',
-                  color: Colors.black45,
-                  icon: Icons.edit,
-                  onTap: () async {
-                    ref.watch(editBirdProvider).setBird(bird.id);
-                    final String? name = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditBirdPage()
+          final List<Widget> widgets = birds
+              .map((bird) => Slidable(
+                    actionPane: SlidableDrawerActionPane(),
+                    child: ListTile(
+                      title: Text(bird.name),
+                      subtitle:
+                          Text('生年月日: ${formatter.format(bird.birthDate)}'),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade200,
+                        child: ClipOval(
+                          child: Image.network(
+                            bird.imageUrl,
+                          ),
+                        ),
                       ),
-                    );
-                    _provider.fetchBirdList();
+                    ),
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: '編集',
+                        color: Colors.black45,
+                        icon: Icons.edit,
+                        onTap: () async {
+                          ref.watch(editBirdProvider).setBird(bird.id);
+                          final String? name = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditBirdPage()),
+                          );
+                          _provider.fetchBirdList();
 
-                    if (name != null) {
-                      final snackBar = SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text('$nameを編集しました'),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                  },
-                ),
-                IconSlideAction(
-                  caption: '削除',
-                  color: Colors.red,
-                  icon: Icons.delete,
-                  onTap: () async {
-                    await showConfirmDialog(context, bird, _provider);
-                  },
-                ),
-              ],
-            )
-          ).toList();
+                          if (name != null) {
+                            final snackBar = SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('$nameを編集しました'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        },
+                      ),
+                      IconSlideAction(
+                        caption: '削除',
+                        color: Colors.red,
+                        icon: Icons.delete,
+                        onTap: () async {
+                          await showConfirmDialog(context, bird, _provider);
+                        },
+                      ),
+                    ],
+                  ))
+              .toList();
           return ListView(
             children: widgets,
           );
         }),
-
       ),
       floatingActionButton: Consumer(builder: (context, watch, child) {
         return FloatingActionButton.extended(
@@ -104,6 +104,7 @@ class BirdListPage extends HookConsumerWidget {
       }),
     );
   }
+
   Future showConfirmDialog(
     BuildContext context,
     Bird bird,

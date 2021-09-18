@@ -2,12 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EditBirdModel extends ChangeNotifier {
-  void fetchUserData(documentId) async{
+  void fetchUserData(documentId) async {
     if (documentId.isEmpty) {
       nameController.text = "";
       imageUrlController.text = "";
     } else {
-      DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('birds').doc(documentId).get();
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('birds')
+          .doc(documentId)
+          .get();
       nameController.text = snapshot['name'];
       imageUrlController.text = snapshot['imageUrl'];
     }
@@ -25,17 +28,17 @@ class EditBirdModel extends ChangeNotifier {
   String? imageUrl;
   DateTime? birthDate;
 
-  void setName(String name){
+  void setName(String name) {
     this.name = name;
     notifyListeners();
   }
 
-  void setImageUrl(String imageUrl){
+  void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
     notifyListeners();
   }
 
-  void setBirthDate(DateTime birthDate){
+  void setBirthDate(DateTime birthDate) {
     this.birthDate = birthDate;
     notifyListeners();
   }
