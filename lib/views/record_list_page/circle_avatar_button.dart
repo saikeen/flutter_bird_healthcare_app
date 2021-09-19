@@ -30,17 +30,20 @@ class StylableCircleAbatarButton extends StatelessWidget {
   Widget build(BuildContext context) => Container(
       margin: style.margin,
       child: Stack(children: [
-        CircleAvatar(
-          radius: style.size! / 2,
-          child: (() {
-            if (imageUrl == null || imageUrl!.isEmpty) {
-              return Text(text!, overflow: TextOverflow.ellipsis);
-            } else {
-              return ClipOval(child: Image.network(imageUrl!));
-            }
-          })(),
-          backgroundColor: style.backgroundColor,
-        ),
+        if (imageUrl == null)
+          CircleAvatar(
+            radius: style.size! / 2,
+            child: Text(text!,
+                style: TextStyle(fontSize: style.size! / 6),
+                overflow: TextOverflow.ellipsis),
+            backgroundColor: style.backgroundColor,
+          ),
+        if (imageUrl != null)
+          CircleAvatar(
+            radius: style.size! / 2,
+            backgroundImage: NetworkImage(imageUrl!),
+            backgroundColor: style.backgroundColor,
+          ),
         Positioned(
           width: style.size,
           height: style.size,

@@ -29,17 +29,18 @@ class AddBirdPage extends HookConsumerWidget {
                 child: Column(
                   children: [
                     GestureDetector(
-                      child: SizedBox(
-                        width: 100,
-                        height: 160,
-                        child: _addBirdProvider.imageFile != null
-                            ? Image.file(_addBirdProvider.imageFile!)
-                            : Container(
-                                color: Colors.grey,
-                              ),
-                      ),
+                      child: _addBirdProvider.imageFile != null
+                          ? CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.grey.shade200,
+                              backgroundImage:
+                                  Image.file(_addBirdProvider.imageFile!).image,
+                            )
+                          : CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.grey.shade200,
+                            ),
                       onTap: () async {
-                        print("反応！");
                         await _addBirdProvider.pickImage();
                       },
                     ),

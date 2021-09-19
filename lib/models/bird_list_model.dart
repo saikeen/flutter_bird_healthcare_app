@@ -15,7 +15,7 @@ class BirdListModel extends ChangeNotifier {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
       final String id = document.id;
       final String name = data['name'];
-      final String imageUrl = data['imageUrl'];
+      final String? imageUrl = data['imageUrl'];
       final DateTime birthDate = data['birthDate'].toDate();
       return Bird(id, name, imageUrl, birthDate);
     }).toList();

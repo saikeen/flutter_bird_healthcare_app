@@ -1,5 +1,6 @@
 import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:BirdHealthcare/models/bird_list_model.dart';
+import 'package:BirdHealthcare/providers/add_bird_provider.dart';
 import 'package:BirdHealthcare/providers/bird_list_provider.dart';
 import 'package:BirdHealthcare/providers/edit_bird_provider.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,8 @@ class BirdListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _provider = ref.watch(birdListProvider);
+    final _birdListProvider = ref.watch(birdListProvider);
+    final _addBirdProvider = ref.watch(addBirdProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -23,7 +25,7 @@ class BirdListPage extends HookConsumerWidget {
       ),
       body: Center(
         child: Consumer(builder: (context, watch, child) {
-          final List<Bird>? birds = _provider.birds;
+          final List<Bird>? birds = _birdListProvider.birds;
 
           if (birds == null) {
             return CircularProgressIndicator();
@@ -34,19 +36,19 @@ class BirdListPage extends HookConsumerWidget {
                     actionPane: SlidableDrawerActionPane(),
                     child: ListTile(
                       leading: bird.imageUrl != null
-                          ? Image.network(bird.imageUrl!)
-                          : null,
+                          ? CircleAvatar(
+                              backgroundColor: Colors.grey.shade200,
+                              backgroundImage: NetworkImage(bird.imageUrl!),
+                            )
+                          : CircleAvatar(
+                              backgroundColor: Colors.grey.shade200,
+                              child: Text(bird.name,
+                                  style: TextStyle(fontSize: 7),
+                                  overflow: TextOverflow.ellipsis),
+                            ),
                       title: Text(bird.name),
                       subtitle:
                           Text('生年月日: ${formatter.format(bird.birthDate)}'),
-                      // leading: CircleAvatar(
-                      //   backgroundColor: Colors.grey.shade200,
-                      //   child: ClipOval(
-                      //     child: Image.network(
-                      //       bird.imageUrl,
-                      //     ),
-                      //   ),
-                      // ),
                     ),
                     secondaryActions: <Widget>[
                       IconSlideAction(
@@ -60,7 +62,7 @@ class BirdListPage extends HookConsumerWidget {
                             MaterialPageRoute(
                                 builder: (context) => EditBirdPage()),
                           );
-                          _provider.fetchBirdList();
+                          _birdListProvider.fetchBirdList();
 
                           if (name != null) {
                             final snackBar = SnackBar(
@@ -77,7 +79,8 @@ class BirdListPage extends HookConsumerWidget {
                         color: Colors.red,
                         icon: Icons.delete,
                         onTap: () async {
-                          await showConfirmDialog(context, bird, _provider);
+                          await showConfirmDialog(
+                              context, bird, _birdListProvider);
                         },
                       ),
                     ],
@@ -91,6 +94,7 @@ class BirdListPage extends HookConsumerWidget {
       floatingActionButton: Consumer(builder: (context, watch, child) {
         return FloatingActionButton.extended(
           onPressed: () async => {
+            _addBirdProvider.imageFile = null,
             await Navigator.push(
               context,
               MaterialPageRoute(
@@ -98,7 +102,7 @@ class BirdListPage extends HookConsumerWidget {
                 fullscreenDialog: true,
               ),
             ),
-            _provider.fetchBirdList()
+            _birdListProvider.fetchBirdList()
           },
           label: const Text('追加'),
           icon: const Icon(Icons.add),
