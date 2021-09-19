@@ -33,17 +33,20 @@ class BirdListPage extends HookConsumerWidget {
               .map((bird) => Slidable(
                     actionPane: SlidableDrawerActionPane(),
                     child: ListTile(
+                      leading: bird.imageUrl != null
+                          ? Image.network(bird.imageUrl!)
+                          : null,
                       title: Text(bird.name),
                       subtitle:
                           Text('生年月日: ${formatter.format(bird.birthDate)}'),
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade200,
-                        child: ClipOval(
-                          child: Image.network(
-                            bird.imageUrl,
-                          ),
-                        ),
-                      ),
+                      // leading: CircleAvatar(
+                      //   backgroundColor: Colors.grey.shade200,
+                      //   child: ClipOval(
+                      //     child: Image.network(
+                      //       bird.imageUrl,
+                      //     ),
+                      //   ),
+                      // ),
                     ),
                     secondaryActions: <Widget>[
                       IconSlideAction(
