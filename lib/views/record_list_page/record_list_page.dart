@@ -1,6 +1,5 @@
 import 'package:BirdHealthcare/domain/weight_data.dart';
 import 'package:BirdHealthcare/models/bird_list_model.dart';
-import 'package:BirdHealthcare/providers/record_list_provider.dart';
 import 'package:BirdHealthcare/views/record_list_page/circle_avatar_list_view.dart';
 import 'package:BirdHealthcare/views/record_list_page/graph_panel.dart';
 import 'package:BirdHealthcare/providers/bird_list_provider.dart';
@@ -14,18 +13,11 @@ class RecordListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     BirdListModel _birdListProvider = ref.watch(birdListProvider);
-    RecordList _recordListProvider = ref.watch(recordListProvider);
     SelectBird _selectBirdProvider = ref.watch(selectBirdProvider);
     List<WeightData> bodyWeightDataList = [];
     List<WeightData> foodWeightDataList = [];
 
-    DateTime today = DateTime.now();
-    DateTime monday = today.add(Duration(days: -today.weekday + 1));
-    DateTime sunday = monday.add(Duration(days: 6));
-
-    _recordListProvider.fetchRecordList(_selectBirdProvider.id, monday, sunday);
-
-    final records = _recordListProvider.records;
+    final records = _selectBirdProvider.records;
     if (records != null) {
       records.forEach((record) {
         bodyWeightDataList.add(WeightData(
