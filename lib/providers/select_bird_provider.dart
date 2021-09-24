@@ -2,6 +2,7 @@ import 'package:BirdHealthcare/domain/record.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:dart_date/dart_date.dart';
 
 final selectBirdProvider = ChangeNotifierProvider(
   (ref) => SelectBird(),
@@ -16,11 +17,10 @@ class SelectBird extends ChangeNotifier {
   void setData(id, name) {
     _id = id;
     _name = name;
-    DateTime today = DateTime.now();
-    DateTime monday = today.add(Duration(days: -today.weekday + 1));
-    DateTime sunday = monday.add(Duration(days: 6));
 
-    this.fetchRecordList(monday, sunday);
+    DateTime today = DateTime.now();
+    this.fetchRecordList(today.startOfISOWeek, today.endOfISOWeek);
+
     notifyListeners();
   }
 

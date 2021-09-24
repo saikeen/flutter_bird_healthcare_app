@@ -37,10 +37,12 @@ class StylableGraphPanel extends HookConsumerWidget {
                 height: 20,
               ),
               Expanded(
-                child: new charts.TimeSeriesChart(
-                  data!,
-                  animate: true,
-                ),
+                child: new charts.TimeSeriesChart(data!,
+                    animate: false,
+                    primaryMeasureAxis: new charts.NumericAxisSpec(
+                        tickProviderSpec:
+                            new charts.BasicNumericTickProviderSpec(
+                                zeroBound: false))),
               ),
             ],
           ),
