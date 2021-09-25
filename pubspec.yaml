@@ -47,6 +47,10 @@ dependency_overrides:
     git:
       url: https://github.com/google/charts
       path: charts_flutter
+  flutter_datetime_picker:
+    git:
+      url: https://github.com/Realank/flutter_datetime_picker.git
+      ref: master
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
