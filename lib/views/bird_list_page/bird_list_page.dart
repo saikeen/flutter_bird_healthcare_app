@@ -2,11 +2,11 @@ import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:BirdHealthcare/models/bird_list_model.dart';
 import 'package:BirdHealthcare/providers/add_bird_provider.dart';
 import 'package:BirdHealthcare/providers/bird_list_provider.dart';
-import 'package:BirdHealthcare/providers/edit_bird_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import '../../main.dart';
 import '../add_bird_page/add_bird_page.dart';
 import '../edit_bird_page/edit_bird_page.dart';
 
@@ -17,6 +17,7 @@ class BirdListPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _birdListProvider = ref.watch(birdListProvider);
     final _addBirdProvider = ref.watch(addBirdProvider);
+    final _editBirdProvider = ref.watch(editBirdProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +57,8 @@ class BirdListPage extends HookConsumerWidget {
                         color: Colors.black45,
                         icon: Icons.edit,
                         onTap: () async {
-                          ref.watch(editBirdProvider).setBird(bird.id);
+                          _editBirdProvider.setBird(bird.id, bird.name,
+                              bird.birthDate, bird.imageUrl.toString());
                           final String? name = await Navigator.push(
                             context,
                             MaterialPageRoute(

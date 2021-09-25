@@ -1,9 +1,14 @@
+import 'package:BirdHealthcare/view_models/edit_bird.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'views/bird_list_page/bird_list_page.dart';
 import 'views/record_list_page/record_list_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+final editBirdProvider = ChangeNotifierProvider(
+  (ref) => EditBirdViewModel(),
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
