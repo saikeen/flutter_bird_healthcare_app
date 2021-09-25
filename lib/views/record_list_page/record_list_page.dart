@@ -48,19 +48,23 @@ class RecordListPage extends HookConsumerWidget {
             : Text('${_selectBirdProvider.name}のグラフ'),
         elevation: 0,
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            StylableCircleAbatarListView(data: _birdListProvider),
-            if (_selectBirdProvider.name.isEmpty) Text("愛鳥を選択してください"),
-            if (_selectBirdProvider.name.isNotEmpty)
-              StylableGraphPanel(
-                  title: "体重", data: getGraphData(bodyWeightDataList)),
-            if (_selectBirdProvider.name.isNotEmpty)
-              StylableGraphPanel(
-                  title: "食事量", data: getGraphData(foodWeightDataList)),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          StylableCircleAbatarListView(data: _birdListProvider),
+          if (_selectBirdProvider.name.isEmpty)
+            Center(child: Text("愛鳥を選択してください")),
+          Expanded(
+              child: ListView(
+            children: <Widget>[
+              if (_selectBirdProvider.name.isNotEmpty)
+                StylableGraphPanel(
+                    title: "体重", data: getGraphData(bodyWeightDataList)),
+              if (_selectBirdProvider.name.isNotEmpty)
+                StylableGraphPanel(
+                    title: "食事量", data: getGraphData(foodWeightDataList)),
+            ],
+          )),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async => {
