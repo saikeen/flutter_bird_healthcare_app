@@ -1,18 +1,18 @@
 import 'package:BirdHealthcare/domain/weight_data.dart';
-import 'package:BirdHealthcare/models/bird_list_model.dart';
+import 'package:BirdHealthcare/view_models/bird_list.dart';
+import 'package:BirdHealthcare/view_models/select_bird.dart';
 import 'package:BirdHealthcare/views/record_list_page/circle_avatar_list_view.dart';
 import 'package:BirdHealthcare/views/record_list_page/graph_panel.dart';
-import 'package:BirdHealthcare/providers/bird_list_provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../main.dart';
 import '../add_record_page/add_record_page.dart';
-import 'package:BirdHealthcare/providers/select_bird_provider.dart';
 
 class RecordListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BirdListModel _birdListProvider = ref.watch(birdListProvider);
+    BirdListViewModel _birdListProvider = ref.watch(birdListProvider);
     SelectBird _selectBirdProvider = ref.watch(selectBirdProvider);
     List<WeightData> bodyWeightDataList = [];
     List<WeightData> foodWeightDataList = [];

@@ -2,7 +2,7 @@ import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class BirdListModel extends ChangeNotifier {
+class BirdListViewModel extends ChangeNotifier {
   List<Bird>? birds;
 
   void fetchBirdList() async {

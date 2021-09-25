@@ -1,7 +1,5 @@
 import 'package:BirdHealthcare/domain/bird.dart';
-import 'package:BirdHealthcare/models/bird_list_model.dart';
-import 'package:BirdHealthcare/providers/add_bird_provider.dart';
-import 'package:BirdHealthcare/providers/bird_list_provider.dart';
+import 'package:BirdHealthcare/view_models/bird_list.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -117,7 +115,7 @@ class BirdListPage extends HookConsumerWidget {
   Future showConfirmDialog(
     BuildContext context,
     Bird bird,
-    BirdListModel model,
+    BirdListViewModel model,
   ) {
     return showDialog(
       context: context,

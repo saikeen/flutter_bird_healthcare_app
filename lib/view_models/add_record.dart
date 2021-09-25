@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AddRecordModel extends ChangeNotifier {
+class AddRecordViewModel extends ChangeNotifier {
   String? birdId;
   double? bodyWeight;
   double? foodWeight;
