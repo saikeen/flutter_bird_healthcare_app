@@ -15,6 +15,7 @@ class EditBirdPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.yellow[900],
         title: Text('愛鳥編集'),
         elevation: 0,
       ),

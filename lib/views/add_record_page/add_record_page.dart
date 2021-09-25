@@ -26,6 +26,7 @@ class AddRecordPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.yellow[900],
         title: Text('${_selectBirdProvider.name}の記録'),
         elevation: 0,
       ),

@@ -19,6 +19,7 @@ class BirdListPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.yellow[900],
         title: Text('愛鳥管理'),
         elevation: 0,
       ),
@@ -104,9 +105,9 @@ class BirdListPage extends HookConsumerWidget {
             ),
             _birdListProvider.fetchBirdList()
           },
-          label: const Text('追加'),
+          label: const Text('愛鳥を追加'),
           icon: const Icon(Icons.add),
-          backgroundColor: Colors.pink,
+          backgroundColor: Colors.yellow[900],
         );
       }),
     );

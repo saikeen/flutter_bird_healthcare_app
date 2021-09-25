@@ -17,6 +17,7 @@ class AddBirdPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.yellow[900],
         title: Text('愛鳥登録'),
         elevation: 0,
       ),

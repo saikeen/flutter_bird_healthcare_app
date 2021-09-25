@@ -43,6 +43,7 @@ class RecordListPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.yellow[900],
         title: _selectBirdProvider.name.isEmpty
             ? Text('ホーム')
             : Text('${_selectBirdProvider.name}のグラフ'),
@@ -81,9 +82,9 @@ class RecordListPage extends HookConsumerWidget {
               ),
             }
         },
-        label: const Text('追加'),
+        label: const Text('記録を追加'),
         icon: const Icon(Icons.add),
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.yellow[900],
       ),
     );
   }
