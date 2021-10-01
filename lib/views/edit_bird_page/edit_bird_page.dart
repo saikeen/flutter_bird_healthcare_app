@@ -10,8 +10,8 @@ class EditBirdPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final birthDate = useState(DateTime.now());
     final _editBirdProvider = ref.watch(editBirdProvider);
+    final birthDate = useState(_editBirdProvider.birthDate);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,86 +21,99 @@ class EditBirdPage extends HookConsumerWidget {
       ),
       body: Center(
         child: Consumer(builder: (context, watch, child) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                GestureDetector(
-                  child: (() {
-                    if (_editBirdProvider.imageFile != null) {
-                      print("1");
-                      return CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.grey.shade200,
-                        backgroundImage:
-                            Image.file(_editBirdProvider.imageFile!).image,
-                      );
-                    } else if (_editBirdProvider.imageUrl != "null") {
-                      print("2");
-                      return CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.grey.shade200,
-                          backgroundImage:
-                              NetworkImage(_editBirdProvider.imageUrl));
-                    } else {
-                      print("3");
-                      return CircleAvatar(
-                          radius: 50, backgroundColor: Colors.grey.shade200);
-                    }
-                  })(),
-                  onTap: () async {
-                    await _editBirdProvider.pickImage();
-                  },
+          return Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      child: (() {
+                        if (_editBirdProvider.imageFile != null) {
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.grey.shade200,
+                            backgroundImage:
+                                Image.file(_editBirdProvider.imageFile!).image,
+                          );
+                        } else if (_editBirdProvider.imageUrl != "null") {
+                          return CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.grey.shade200,
+                              backgroundImage:
+                                  NetworkImage(_editBirdProvider.imageUrl));
+                        } else {
+                          return CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.grey.shade200);
+                        }
+                      })(),
+                      onTap: () async {
+                        await _editBirdProvider.pickImage();
+                      },
+                    ),
+                    TextField(
+                      controller: _editBirdProvider.nameController,
+                      decoration: InputDecoration(
+                        hintText: '愛鳥の名前',
+                      ),
+                      onChanged: (text) {
+                        _editBirdProvider.setName(text);
+                      },
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text(formatter.format(birthDate.value)),
+                    TextButton(
+                        onPressed: () {
+                          DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime(2010, 1, 1),
+                              maxTime: DateTime(2021, 12, 31),
+                              onChanged: (date) {}, onConfirm: (date) {
+                            birthDate.value = date;
+                            _editBirdProvider.setBirthDate(date);
+                          },
+                              currentTime: birthDate.value,
+                              locale: LocaleType.jp);
+                        },
+                        child: Text(
+                          '生年月日を入力',
+                          style: TextStyle(color: Colors.blue),
+                        )),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        try {
+                          _editBirdProvider.startLoading();
+                          await _editBirdProvider.updateBird();
+                          Navigator.of(context).pop(_editBirdProvider.name);
+                        } catch (e) {
+                          final snackBar = SnackBar(
+                            backgroundColor: Colors.red,
+                            content: Text(e.toString()),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } finally {
+                          _editBirdProvider.endLoading();
+                        }
+                      },
+                      child: Text('更新する'),
+                    )
+                  ],
                 ),
-                TextField(
-                  controller: _editBirdProvider.nameController,
-                  decoration: InputDecoration(
-                    hintText: '愛鳥の名前',
+              ),
+              if (_editBirdProvider.isLoading)
+                Container(
+                  color: Colors.black54,
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  onChanged: (text) {
-                    _editBirdProvider.setName(text);
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Text(formatter.format(birthDate.value)),
-                TextButton(
-                    onPressed: () {
-                      DatePicker.showDatePicker(context,
-                          showTitleActions: true,
-                          minTime: DateTime(2010, 1, 1),
-                          maxTime: DateTime(2021, 12, 31),
-                          onChanged: (date) {}, onConfirm: (date) {
-                        birthDate.value = date;
-                        _editBirdProvider.setBirthDate(date);
-                      }, currentTime: birthDate.value, locale: LocaleType.jp);
-                    },
-                    child: Text(
-                      '生年月日を入力',
-                      style: TextStyle(color: Colors.blue),
-                    )),
-                SizedBox(
-                  height: 16,
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    // 追加の処理
-                    try {
-                      await _editBirdProvider.updateBird();
-                      Navigator.of(context).pop(_editBirdProvider.name);
-                    } catch (e) {
-                      final snackBar = SnackBar(
-                        backgroundColor: Colors.red,
-                        content: Text(e.toString()),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                  },
-                  child: Text('更新する'),
                 )
-              ],
-            ),
+            ],
           );
         }),
       ),

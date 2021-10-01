@@ -16,8 +16,19 @@ class EditBirdViewModel extends ChangeNotifier {
   DateTime get birthDate => _birthDate;
   String get imageUrl => _imageUrl;
   File? imageFile;
+  bool isLoading = false;
 
   final picker = ImagePicker();
+
+  void startLoading() {
+    isLoading = true;
+    notifyListeners();
+  }
+
+  void endLoading() {
+    isLoading = false;
+    notifyListeners();
+  }
 
   void setBird(id, name, birthDate, imageUrl) {
     _id = id;
