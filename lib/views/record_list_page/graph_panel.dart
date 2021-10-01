@@ -42,7 +42,12 @@ class StylableGraphPanel extends HookConsumerWidget {
                     primaryMeasureAxis: new charts.NumericAxisSpec(
                         tickProviderSpec:
                             new charts.BasicNumericTickProviderSpec(
-                                zeroBound: false))),
+                                zeroBound: false)),
+                    domainAxis: new charts.DateTimeAxisSpec(
+                        tickFormatterSpec:
+                            new charts.AutoDateTimeTickFormatterSpec(
+                                day: new charts.TimeFormatterSpec(
+                                    format: 'd', transitionFormat: 'MM/dd')))),
               ),
             ],
           ),
