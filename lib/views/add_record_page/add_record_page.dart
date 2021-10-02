@@ -1,5 +1,6 @@
 import 'package:BirdHealthcare/view_models/select_bird.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -36,32 +37,42 @@ class AddRecordPage extends HookConsumerWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Text(selectDecimalNumbarOfBodyWeight.value),
-                ElevatedButton(
-                  onPressed: () async {
-                    final String selectDecimalNumbar = await showModalPicker(
-                        context, selectNumbar, selectFirstDecimalPlaceNumber);
-
-                    selectDecimalNumbarOfBodyWeight.value = selectDecimalNumbar;
-                    _addRecordProvider.bodyWeight =
-                        double.parse(selectDecimalNumbar);
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "体重",
+                  ),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^[0-9]{3}\.[0-9]{1}$'))
+                  ],
+                  onChanged: (text) {
+                    try {
+                      _addRecordProvider.bodyWeight = double.parse(text);
+                    } catch (exception) {
+                      _addRecordProvider.bodyWeight = 0.0;
+                    }
                   },
-                  child: Text('体重を選択'),
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                Text(selectDecimalNumbarOfFoodWeight.value),
-                ElevatedButton(
-                  onPressed: () async {
-                    final String selectDecimalNumbar = await showModalPicker(
-                        context, selectNumbar, selectFirstDecimalPlaceNumber);
-
-                    selectDecimalNumbarOfFoodWeight.value = selectDecimalNumbar;
-                    _addRecordProvider.foodWeight =
-                        double.parse(selectDecimalNumbar);
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "食事量",
+                  ),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^[0-9]{3}\.[0-9]{1}$'))
+                  ],
+                  onChanged: (text) {
+                    try {
+                      _addRecordProvider.foodWeight = double.parse(text);
+                    } catch (exception) {
+                      _addRecordProvider.foodWeight = 0.0;
+                    }
                   },
-                  child: Text('食事量を選択'),
                 ),
                 SizedBox(
                   height: 16,

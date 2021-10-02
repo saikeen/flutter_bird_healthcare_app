@@ -11,11 +11,11 @@ class AddRecordViewModel extends ChangeNotifier {
       throw '愛鳥が選択されていません';
     }
 
-    if (bodyWeight == null || bodyWeight == 0) {
+    if (bodyWeight == null) {
       throw '体重が入力されていません';
     }
 
-    if (foodWeight == null || foodWeight == 0) {
+    if (foodWeight == null) {
       throw '食事量が入力されていません';
     }
 
