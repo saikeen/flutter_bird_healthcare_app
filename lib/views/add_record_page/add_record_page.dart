@@ -82,6 +82,9 @@ class AddRecordPage extends HookConsumerWidget {
                         content: Text(e.toString()),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } finally {
+                      _selectBirdProvider.setData(
+                          _selectBirdProvider.id, _selectBirdProvider.name);
                     }
                   },
                   child: Text('追加する'),

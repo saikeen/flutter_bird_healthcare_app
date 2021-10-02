@@ -31,6 +31,19 @@ class RecordListPage extends HookConsumerWidget {
         List<Record>? records) {
       if (records != null) {
         List<WeightData> data = [];
+        double test = 0;
+        for (DateTime day in weekDays) {
+          final targetRecords = records
+              .where((record) => day.isSameDay(record.createdAt.toDate()));
+          double sum = 0;
+          targetRecords.forEach((record) {
+            sum += record.bodyWeight;
+          });
+          if (sum != 0) {
+            test = sum;
+            break;
+          }
+        }
         weekDays.forEach((day) {
           final targetRecords = records
               .where((record) => day.isSameDay(record.createdAt.toDate()));
@@ -38,6 +51,11 @@ class RecordListPage extends HookConsumerWidget {
           targetRecords.forEach((record) {
             sum += record.bodyWeight;
           });
+          if (sum == 0) {
+            sum = test;
+          } else {
+            test = sum;
+          }
           data.add(WeightData(date: day, weight: sum));
         });
         List<charts.Series<WeightData, DateTime>> graphData = [
@@ -72,6 +90,19 @@ class RecordListPage extends HookConsumerWidget {
         List<Record>? records) {
       if (records != null) {
         List<WeightData> data = [];
+        double test = 0;
+        for (DateTime day in weekDays) {
+          final targetRecords = records
+              .where((record) => day.isSameDay(record.createdAt.toDate()));
+          double sum = 0;
+          targetRecords.forEach((record) {
+            sum += record.foodWeight;
+          });
+          if (sum != 0) {
+            test = sum;
+            break;
+          }
+        }
         weekDays.forEach((day) {
           final targetRecords = records
               .where((record) => day.isSameDay(record.createdAt.toDate()));
@@ -79,6 +110,11 @@ class RecordListPage extends HookConsumerWidget {
           targetRecords.forEach((record) {
             sum += record.foodWeight;
           });
+          if (sum == 0) {
+            sum = test;
+          } else {
+            test = sum;
+          }
           data.add(WeightData(date: day, weight: sum));
         });
         List<charts.Series<WeightData, DateTime>> graphData = [
