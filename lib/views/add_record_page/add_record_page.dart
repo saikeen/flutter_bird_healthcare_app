@@ -42,10 +42,6 @@ class AddRecordPage extends HookConsumerWidget {
                     labelText: "体重",
                   ),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^[0-9]{3}\.[0-9]{1}$'))
-                  ],
                   onChanged: (text) {
                     try {
                       _addRecordProvider.bodyWeight = double.parse(text);
@@ -62,10 +58,6 @@ class AddRecordPage extends HookConsumerWidget {
                     labelText: "食事量",
                   ),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^[0-9]{3}\.[0-9]{1}$'))
-                  ],
                   onChanged: (text) {
                     try {
                       _addRecordProvider.foodWeight = double.parse(text);
