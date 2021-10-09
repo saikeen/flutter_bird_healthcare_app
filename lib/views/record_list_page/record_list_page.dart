@@ -8,6 +8,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:dart_date/src/dart_date.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_segmented_control/material_segmented_control.dart';
 import '../../main.dart';
 import '../add_record_page/add_record_page.dart';
 
@@ -16,6 +17,8 @@ class RecordListPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     BirdListViewModel _birdListProvider = ref.watch(birdListProvider);
     SelectBird _selectBirdProvider = ref.watch(selectBirdProvider);
+    StateController<int> _selectViewIndexProvider =
+        ref.watch(selectViewIndexProvider);
     DateTime monday = DateTime.now().startOfISOWeek;
     final weekDays = [
       monday,
@@ -145,6 +148,19 @@ class RecordListPage extends HookConsumerWidget {
       }
     }
 
+    Map<int, Widget> _children = {
+      0: Padding(
+        padding: EdgeInsets.only(right: 30, left: 30),
+        child: Text('グラフ'),
+      ),
+      1: Padding(
+        padding: EdgeInsets.only(right: 30, left: 30),
+        child: Text('テーブル'),
+      ),
+    };
+
+    List<int> _disabledIndices = [];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[900],
@@ -155,9 +171,28 @@ class RecordListPage extends HookConsumerWidget {
       ),
       body: Column(
         children: <Widget>[
+          SizedBox(
+            height: 8,
+          ),
           StylableCircleAbatarListView(data: _birdListProvider),
+          SizedBox(
+            height: 8,
+          ),
           if (_selectBirdProvider.name.isEmpty)
             Center(child: Text("愛鳥を選択してください")),
+          if (_selectBirdProvider.name.isNotEmpty)
+            MaterialSegmentedControl(
+              children: _children,
+              selectionIndex: _selectViewIndexProvider.state,
+              borderColor: Colors.grey,
+              selectedColor: Colors.redAccent,
+              unselectedColor: Colors.white,
+              borderRadius: 8.0,
+              disabledChildren: _disabledIndices,
+              onSegmentChosen: (index) {
+                _selectViewIndexProvider.state = index as int;
+              },
+            ),
           Expanded(
               child: ListView(
             children: <Widget>[

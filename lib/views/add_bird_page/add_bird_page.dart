@@ -56,9 +56,6 @@ class AddBirdPage extends HookConsumerWidget {
                     SizedBox(
                       height: 16,
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
                     Text(formatter.format(birthDate.value)),
                     TextButton(
                         onPressed: () {

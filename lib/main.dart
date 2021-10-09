@@ -25,6 +25,10 @@ final editBirdProvider = ChangeNotifierProvider(
   (ref) => EditBirdViewModel(),
 );
 
+final selectViewIndexProvider = StateProvider(
+  (ref) => 0,
+);
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
