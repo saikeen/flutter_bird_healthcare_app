@@ -10,9 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 import '../../main.dart';
+import 'package:intl/intl.dart';
 import '../add_record_page/add_record_page.dart';
 
 class RecordListPage extends HookConsumerWidget {
+  final formatter = DateFormat('yyyy/MM/dd');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     BirdListViewModel _birdListProvider = ref.watch(birdListProvider);
@@ -151,22 +154,84 @@ class RecordListPage extends HookConsumerWidget {
     Map<int, Widget> _children = {
       0: Padding(
         padding: EdgeInsets.only(right: 30, left: 30),
-        child: Text('グラフ'),
+        child: Text('グラフ', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       1: Padding(
         padding: EdgeInsets.only(right: 30, left: 30),
-        child: Text('テーブル'),
+        child: Text('テーブル', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
     };
 
-    List<int> _disabledIndices = [];
+    makeBirdTableData(List<Record>? records) {
+      List<BirdTableData> tableData = [];
+
+      if (records != null) {
+        double inheritedBodyWeightSum = 0;
+        double inheritedFoodWeightSum = 0;
+        for (DateTime day in weekDays) {
+          final targetRecords = records
+              .where((record) => day.isSameDay(record.createdAt.toDate()));
+          double bodyWeightSum = 0;
+          targetRecords.forEach((record) {
+            bodyWeightSum += record.bodyWeight;
+          });
+          if (bodyWeightSum != 0) {
+            inheritedBodyWeightSum = bodyWeightSum;
+            break;
+          }
+        }
+        for (DateTime day in weekDays) {
+          final targetRecords = records
+              .where((record) => day.isSameDay(record.createdAt.toDate()));
+          double foodWeightSum = 0;
+          targetRecords.forEach((record) {
+            foodWeightSum += record.foodWeight;
+          });
+          if (foodWeightSum != 0) {
+            inheritedFoodWeightSum = foodWeightSum;
+            break;
+          }
+        }
+        weekDays.forEach((day) {
+          final targetRecords = records
+              .where((record) => day.isSameDay(record.createdAt.toDate()));
+          double bodyWeightSum = 0;
+          double foodWeightSum = 0;
+          targetRecords.forEach((record) {
+            bodyWeightSum += record.bodyWeight;
+            foodWeightSum += record.foodWeight;
+          });
+          if (bodyWeightSum == 0) {
+            bodyWeightSum = inheritedBodyWeightSum;
+          } else {
+            inheritedBodyWeightSum = bodyWeightSum;
+          }
+          if (foodWeightSum == 0) {
+            foodWeightSum = inheritedFoodWeightSum;
+          } else {
+            inheritedFoodWeightSum = foodWeightSum;
+          }
+          tableData.add(BirdTableData(
+              date: day,
+              bodyWeightSum: bodyWeightSum,
+              foodWeightSum: foodWeightSum));
+        });
+        return tableData;
+      } else {
+        weekDays.forEach((day) {
+          tableData.add(
+              BirdTableData(date: day, bodyWeightSum: 0, foodWeightSum: 0));
+        });
+        return tableData;
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[900],
         title: _selectBirdProvider.name.isEmpty
             ? Text('ホーム')
-            : Text('${_selectBirdProvider.name}のグラフ'),
+            : Text('${_selectBirdProvider.name}の情報'),
         elevation: 0,
       ),
       body: Column(
@@ -185,25 +250,130 @@ class RecordListPage extends HookConsumerWidget {
               children: _children,
               selectionIndex: _selectViewIndexProvider.state,
               borderColor: Colors.grey,
-              selectedColor: Colors.redAccent,
+              selectedColor: Colors.orange,
               unselectedColor: Colors.white,
               borderRadius: 8.0,
-              disabledChildren: _disabledIndices,
               onSegmentChosen: (index) {
                 _selectViewIndexProvider.state = index as int;
               },
             ),
+          SizedBox(
+            height: 8,
+          ),
           Expanded(
               child: ListView(
             children: <Widget>[
-              if (_selectBirdProvider.name.isNotEmpty)
+              if (_selectBirdProvider.name.isNotEmpty &&
+                  _selectViewIndexProvider.state == 0)
                 StylableGraphPanel(
                     title: "体重",
                     data: makeBodyWeightGraphData(_selectBirdProvider.records)),
-              if (_selectBirdProvider.name.isNotEmpty)
+              if (_selectBirdProvider.name.isNotEmpty &&
+                  _selectViewIndexProvider.state == 0)
                 StylableGraphPanel(
                     title: "食事量",
                     data: makeFoodWeightGraphData(_selectBirdProvider.records)),
+              if (_selectBirdProvider.name.isNotEmpty &&
+                  _selectViewIndexProvider.state == 1)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Table(
+                    border: TableBorder.all(
+                      color: Colors.grey,
+                    ),
+                    columnWidths: const <int, TableColumnWidth>{
+                      0: FixedColumnWidth(100),
+                      1: FlexColumnWidth(),
+                      2: FlexColumnWidth(),
+                      3: FlexColumnWidth(),
+                    },
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    children: <TableRow>[
+                      TableRow(
+                        children: <Widget>[
+                          TableCell(
+                            child: Container(
+                              color: Colors.orange[300],
+                              child: Text(
+                                "日付",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Container(
+                              color: Colors.orange[300],
+                              child: Text(
+                                "体重",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Container(
+                              color: Colors.orange[300],
+                              child: Text(
+                                "食事量",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Container(
+                              color: Colors.orange[300],
+                              child: Text(
+                                "備考",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      for (final birdTableData
+                          in makeBirdTableData(_selectBirdProvider.records))
+                        TableRow(
+                          children: <Widget>[
+                            TableCell(
+                              child: Container(
+                                child: Text(
+                                  formatter.format(birdTableData.date),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                child: Text(
+                                  birdTableData.bodyWeightSum.toString(),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                child: Text(
+                                  birdTableData.foodWeightSum.toString(),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                child: Text(
+                                  "",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                    ],
+                  ),
+                ),
             ],
           )),
         ],
@@ -229,4 +399,15 @@ class RecordListPage extends HookConsumerWidget {
       ),
     );
   }
+}
+
+class BirdTableData {
+  DateTime date;
+  double bodyWeightSum;
+  double foodWeightSum;
+
+  BirdTableData(
+      {required this.date,
+      required this.bodyWeightSum,
+      required this.foodWeightSum}) {}
 }
