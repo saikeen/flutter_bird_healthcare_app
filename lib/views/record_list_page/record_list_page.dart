@@ -1,5 +1,7 @@
 import 'package:BirdHealthcare/domain/record.dart';
 import 'package:BirdHealthcare/domain/weight_data.dart';
+import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
+import 'package:BirdHealthcare/presentation/providers/common_provider.dart';
 import 'package:BirdHealthcare/view_models/bird_list.dart';
 import 'package:BirdHealthcare/view_models/select_bird.dart';
 import 'package:BirdHealthcare/views/record_list_page/circle_avatar_list_view.dart';
@@ -9,17 +11,19 @@ import 'package:dart_date/src/dart_date.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
-import '../../main.dart';
 import 'package:intl/intl.dart';
 import '../add_record_page/add_record_page.dart';
 
 class RecordListPage extends HookConsumerWidget {
-  final formatter = DateFormat('yyyy/MM/dd');
+  const RecordListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     BirdListViewModel _birdListProvider = ref.watch(birdListProvider);
     SelectBird _selectBirdProvider = ref.watch(selectBirdProvider);
+
+    final formatter = DateFormat('yyyy/MM/dd');
+
     StateController<int> _selectViewIndexProvider =
         ref.watch(selectViewIndexProvider);
     DateTime monday = DateTime.now().startOfISOWeek;

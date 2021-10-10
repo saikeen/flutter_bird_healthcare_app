@@ -1,3 +1,4 @@
+import 'package:BirdHealthcare/presentation/providers/record_provider.dart';
 import 'package:BirdHealthcare/view_models/select_bird.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,9 +6,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
-import '../../main.dart';
 
 class AddRecordPage extends HookConsumerWidget {
+  // TODO: 値の継承ができない状態のため、余裕がある時に修正
   final numbars = List<String>.generate(100, (index) => '$index');
   final firstDecimalPlaceNumbers =
       List<String>.generate(10, (index) => '$index');
