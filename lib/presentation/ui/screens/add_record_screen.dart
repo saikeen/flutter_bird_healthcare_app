@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
-class AddRecordPage extends HookConsumerWidget {
+class AddRecordScreen extends HookConsumerWidget {
   // TODO: 値の継承ができない状態のため、余裕がある時に修正
   final numbars = List<String>.generate(100, (index) => '$index');
   final firstDecimalPlaceNumbers =

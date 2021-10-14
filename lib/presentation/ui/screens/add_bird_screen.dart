@@ -5,20 +5,21 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class EditBirdPage extends HookConsumerWidget {
-  const EditBirdPage({Key? key}) : super(key: key);
+class AddBirdScreen extends HookConsumerWidget {
+  const AddBirdScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _editBirdProvider = ref.watch(editBirdProvider);
-    final birthDate = useState(_editBirdProvider.birthDate);
-
     final formatter = DateFormat('yyyy/MM/dd');
+    final birthDate = useState(DateTime.now());
+    final _addBirdProvider = ref.watch(addBirdProvider);
+
+    _addBirdProvider.birthDate = DateTime.now();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[900],
-        title: Text('愛鳥編集'),
+        title: Text('愛鳥登録'),
         elevation: 0,
       ),
       body: Center(
@@ -30,37 +31,27 @@ class EditBirdPage extends HookConsumerWidget {
                 child: Column(
                   children: [
                     GestureDetector(
-                      child: (() {
-                        if (_editBirdProvider.imageFile != null) {
-                          return CircleAvatar(
-                            radius: 50,
-                            backgroundColor: Colors.grey.shade200,
-                            backgroundImage:
-                                Image.file(_editBirdProvider.imageFile!).image,
-                          );
-                        } else if (_editBirdProvider.imageUrl != "null") {
-                          return CircleAvatar(
+                      child: _addBirdProvider.imageFile != null
+                          ? CircleAvatar(
                               radius: 50,
                               backgroundColor: Colors.grey.shade200,
                               backgroundImage:
-                                  NetworkImage(_editBirdProvider.imageUrl));
-                        } else {
-                          return CircleAvatar(
+                                  Image.file(_addBirdProvider.imageFile!).image,
+                            )
+                          : CircleAvatar(
                               radius: 50,
-                              backgroundColor: Colors.grey.shade200);
-                        }
-                      })(),
+                              backgroundColor: Colors.grey.shade200,
+                            ),
                       onTap: () async {
-                        await _editBirdProvider.pickImage();
+                        await _addBirdProvider.pickImage();
                       },
                     ),
                     TextField(
-                      controller: _editBirdProvider.nameController,
                       decoration: InputDecoration(
                         hintText: '愛鳥の名前',
                       ),
                       onChanged: (text) {
-                        _editBirdProvider.setName(text);
+                        _addBirdProvider.name = text;
                       },
                     ),
                     SizedBox(
@@ -73,9 +64,9 @@ class EditBirdPage extends HookConsumerWidget {
                               showTitleActions: true,
                               minTime: DateTime(2010, 1, 1),
                               maxTime: DateTime(2021, 12, 31),
-                              onChanged: (date) {}, onConfirm: (date) {
+                              onConfirm: (date) {
                             birthDate.value = date;
-                            _editBirdProvider.setBirthDate(date);
+                            _addBirdProvider.birthDate = date;
                           },
                               currentTime: birthDate.value,
                               locale: LocaleType.jp);
@@ -90,9 +81,14 @@ class EditBirdPage extends HookConsumerWidget {
                     ElevatedButton(
                       onPressed: () async {
                         try {
-                          _editBirdProvider.startLoading();
-                          await _editBirdProvider.updateBird();
-                          Navigator.of(context).pop(_editBirdProvider.name);
+                          _addBirdProvider.startLoading();
+                          await _addBirdProvider.addBird();
+                          Navigator.of(context).pop(true);
+                          final snackBar = SnackBar(
+                            backgroundColor: Colors.green,
+                            content: Text('愛鳥を登録しました'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } catch (e) {
                           final snackBar = SnackBar(
                             backgroundColor: Colors.red,
@@ -100,15 +96,15 @@ class EditBirdPage extends HookConsumerWidget {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } finally {
-                          _editBirdProvider.endLoading();
+                          _addBirdProvider.endLoading();
                         }
                       },
-                      child: Text('更新する'),
+                      child: Text('追加する'),
                     )
                   ],
                 ),
               ),
-              if (_editBirdProvider.isLoading)
+              if (_addBirdProvider.isLoading)
                 Container(
                   color: Colors.black54,
                   child: Center(

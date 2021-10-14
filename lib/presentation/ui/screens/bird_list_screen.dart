@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../add_bird_page/add_bird_page.dart';
-import '../edit_bird_page/edit_bird_page.dart';
+import '../screens/add_bird_screen.dart';
+import '../screens/edit_bird_screen.dart';
 
-class BirdListPage extends HookConsumerWidget {
-  const BirdListPage({Key? key}) : super(key: key);
+class BirdListScreen extends HookConsumerWidget {
+  const BirdListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,7 +63,7 @@ class BirdListPage extends HookConsumerWidget {
                           final String? name = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EditBirdPage()),
+                                builder: (context) => EditBirdScreen()),
                           );
                           _birdListProvider.fetchBirdList();
 
@@ -101,7 +101,7 @@ class BirdListPage extends HookConsumerWidget {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddBirdPage(),
+                builder: (context) => AddBirdScreen(),
                 fullscreenDialog: true,
               ),
             ),

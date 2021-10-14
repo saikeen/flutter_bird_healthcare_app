@@ -4,18 +4,18 @@ import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import 'package:BirdHealthcare/presentation/providers/common_provider.dart';
 import 'package:BirdHealthcare/view_models/bird_list.dart';
 import 'package:BirdHealthcare/view_models/select_bird.dart';
-import 'package:BirdHealthcare/views/record_list_page/circle_avatar_list_view.dart';
-import 'package:BirdHealthcare/views/record_list_page/graph_panel.dart';
+import '../widgets/circle_avatar_list_view.dart';
+import '../widgets/graph_panel.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:dart_date/src/dart_date.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 import 'package:intl/intl.dart';
-import '../add_record_page/add_record_page.dart';
+import '../screens/add_record_screen.dart';
 
-class RecordListPage extends HookConsumerWidget {
-  const RecordListPage({Key? key}) : super(key: key);
+class RecordListScreen extends HookConsumerWidget {
+  const RecordListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -391,7 +391,7 @@ class RecordListPage extends HookConsumerWidget {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddRecordPage(),
+                  builder: (context) => AddRecordScreen(),
                   fullscreenDialog: true,
                 ),
               ),

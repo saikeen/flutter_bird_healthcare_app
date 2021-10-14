@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '/../views/bird_list_page/bird_list_page.dart';
-import '/../views/record_list_page/record_list_page.dart';
+import './screens/bird_list_screen.dart';
+import './screens/record_list_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   static List<Widget> _pageList = [
-    RecordListPage(),
-    BirdListPage(),
+    RecordListScreen(),
+    BirdListScreen(),
   ];
 
   @override
