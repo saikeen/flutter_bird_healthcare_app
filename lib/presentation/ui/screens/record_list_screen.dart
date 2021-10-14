@@ -22,7 +22,7 @@ class RecordListScreen extends HookConsumerWidget {
     BirdListViewModel _birdListProvider = ref.watch(birdListProvider);
     SelectBird _selectBirdProvider = ref.watch(selectBirdProvider);
 
-    final formatter = DateFormat('yyyy/MM/dd');
+    final formatter = DateFormat('MM/dd');
 
     StateController<int> _selectViewIndexProvider =
         ref.watch(selectViewIndexProvider);
@@ -253,7 +253,7 @@ class RecordListScreen extends HookConsumerWidget {
             MaterialSegmentedControl(
               children: _children,
               selectionIndex: _selectViewIndexProvider.state,
-              borderColor: Colors.grey,
+              borderColor: Colors.white,
               selectedColor: Colors.orange,
               unselectedColor: Colors.white,
               borderRadius: 8.0,
@@ -282,11 +282,9 @@ class RecordListScreen extends HookConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Table(
-                    border: TableBorder.all(
-                      color: Colors.grey,
-                    ),
+                    border: TableBorder.all(color: Colors.white),
                     columnWidths: const <int, TableColumnWidth>{
-                      0: FixedColumnWidth(100),
+                      0: FlexColumnWidth(),
                       1: FlexColumnWidth(),
                       2: FlexColumnWidth(),
                       3: FlexColumnWidth(),
@@ -297,41 +295,61 @@ class RecordListScreen extends HookConsumerWidget {
                         children: <Widget>[
                           TableCell(
                             child: Container(
-                              color: Colors.orange[300],
-                              child: Text(
-                                "日付",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              color: Colors.orange,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "日付",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
                           TableCell(
                             child: Container(
-                              color: Colors.orange[300],
-                              child: Text(
-                                "体重",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              color: Colors.orange,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "体重",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
                           TableCell(
                             child: Container(
-                              color: Colors.orange[300],
-                              child: Text(
-                                "食事量",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              color: Colors.orange,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "食事量",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
                           TableCell(
                             child: Container(
-                              color: Colors.orange[300],
-                              child: Text(
-                                "備考",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              color: Colors.orange,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "備考",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
@@ -343,33 +361,49 @@ class RecordListScreen extends HookConsumerWidget {
                           children: <Widget>[
                             TableCell(
                               child: Container(
-                                child: Text(
-                                  formatter.format(birdTableData.date),
-                                  textAlign: TextAlign.center,
+                                color: Colors.grey[100],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    formatter.format(birdTableData.date),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),
                             TableCell(
                               child: Container(
-                                child: Text(
-                                  birdTableData.bodyWeightSum.toString(),
-                                  textAlign: TextAlign.center,
+                                color: Colors.grey[100],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    birdTableData.bodyWeightSum.toString(),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),
                             TableCell(
                               child: Container(
-                                child: Text(
-                                  birdTableData.foodWeightSum.toString(),
-                                  textAlign: TextAlign.center,
+                                color: Colors.grey[100],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    birdTableData.foodWeightSum.toString(),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),
                             TableCell(
                               child: Container(
-                                child: Text(
-                                  "",
-                                  textAlign: TextAlign.center,
+                                color: Colors.grey[100],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "",
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),
