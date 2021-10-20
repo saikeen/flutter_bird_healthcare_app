@@ -1,5 +1,5 @@
-import 'package:BirdHealthcare/domain/record.dart';
-import 'package:BirdHealthcare/domain/weight_data.dart';
+import 'package:BirdHealthcare/core/domain/record.dart';
+import 'package:BirdHealthcare/core/domain/weight_data.dart';
 import 'package:dart_date/src/dart_date.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 

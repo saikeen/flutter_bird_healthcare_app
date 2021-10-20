@@ -1,4 +1,4 @@
-import 'package:BirdHealthcare/domain/weight_data.dart';
+import 'package:BirdHealthcare/core/domain/weight_data.dart';
 import 'package:charts_flutter/flutter.dart';
 import "package:flutter/material.dart";
 import 'package:hooks_riverpod/hooks_riverpod.dart';

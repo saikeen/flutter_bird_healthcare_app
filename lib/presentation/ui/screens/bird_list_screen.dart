@@ -1,4 +1,4 @@
-import 'package:BirdHealthcare/domain/bird.dart';
+import 'package:BirdHealthcare/core/domain/bird.dart';
 import 'package:BirdHealthcare/presentation/models/bird_list_model.dart';
 import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import 'package:flutter/material.dart';

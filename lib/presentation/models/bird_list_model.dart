@@ -1,5 +1,5 @@
+import 'package:BirdHealthcare/core/domain/bird.dart';
 import 'package:BirdHealthcare/core/repository/bird_repository.dart';
-import 'package:BirdHealthcare/domain/bird.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

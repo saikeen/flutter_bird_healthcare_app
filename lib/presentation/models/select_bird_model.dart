@@ -1,4 +1,4 @@
-import 'package:BirdHealthcare/domain/record.dart';
+import 'package:BirdHealthcare/core/domain/record.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:dart_date/dart_date.dart';

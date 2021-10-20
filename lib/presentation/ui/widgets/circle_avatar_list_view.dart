@@ -1,7 +1,7 @@
+import 'package:BirdHealthcare/core/domain/bird.dart';
 import 'package:BirdHealthcare/presentation/models/bird_list_model.dart';
 import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import './circle_avatar_button.dart';
-import 'package:BirdHealthcare/domain/bird.dart';
 import "package:flutter/material.dart";
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
