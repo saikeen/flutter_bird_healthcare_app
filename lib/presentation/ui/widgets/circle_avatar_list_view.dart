@@ -1,5 +1,5 @@
-import 'package:BirdHealthcare/view_models/bird_list.dart';
-import 'package:BirdHealthcare/view_models/select_bird.dart';
+import 'package:BirdHealthcare/presentation/models/bird_list_model.dart';
+import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import './circle_avatar_button.dart';
 import 'package:BirdHealthcare/domain/bird.dart';
 import "package:flutter/material.dart";
@@ -21,7 +21,7 @@ class StylableCircleAbatarListView extends HookConsumerWidget {
   }) : super(key: key);
 
   final CircleAbatarListViewStyle style;
-  final BirdListViewModel? data;
+  final BirdListModel? data;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

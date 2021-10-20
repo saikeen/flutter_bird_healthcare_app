@@ -1,14 +1,9 @@
 import 'package:BirdHealthcare/domain/record.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:dart_date/dart_date.dart';
 
-final selectBirdProvider = ChangeNotifierProvider(
-  (ref) => SelectBird(),
-);
-
-class SelectBird extends ChangeNotifier {
+class SelectBirdModel extends ChangeNotifier {
   var _id = '';
   var _name = '';
   String get id => _id;

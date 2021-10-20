@@ -1,16 +1,21 @@
-import 'package:BirdHealthcare/view_models/add_bird.dart';
-import 'package:BirdHealthcare/view_models/bird_list.dart';
-import 'package:BirdHealthcare/view_models/edit_bird.dart';
+import 'package:BirdHealthcare/presentation/models/add_bird_model.dart';
+import 'package:BirdHealthcare/presentation/models/bird_list_model.dart';
+import 'package:BirdHealthcare/presentation/models/edit_bird_model.dart';
+import 'package:BirdHealthcare/presentation/models/select_bird_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final birdListProvider = ChangeNotifierProvider(
-  (ref) => BirdListViewModel()..fetchBirdList(),
+  (ref) => BirdListModel()..getBirdList(),
 );
 
 final addBirdProvider = ChangeNotifierProvider(
-  (ref) => AddBirdViewModel(),
+  (ref) => AddBirdModel(),
 );
 
 final editBirdProvider = ChangeNotifierProvider(
-  (ref) => EditBirdViewModel(),
+  (ref) => EditBirdModel(),
+);
+
+final selectBirdProvider = ChangeNotifierProvider(
+  (ref) => SelectBirdModel(),
 );

@@ -1,6 +1,6 @@
 import 'package:BirdHealthcare/domain/bird.dart';
+import 'package:BirdHealthcare/presentation/models/bird_list_model.dart';
 import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
-import 'package:BirdHealthcare/view_models/bird_list.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -65,7 +65,7 @@ class BirdListScreen extends HookConsumerWidget {
                             MaterialPageRoute(
                                 builder: (context) => EditBirdScreen()),
                           );
-                          _birdListProvider.fetchBirdList();
+                          _birdListProvider.getBirdList();
 
                           if (name != null) {
                             final snackBar = SnackBar(
@@ -105,7 +105,7 @@ class BirdListScreen extends HookConsumerWidget {
                 fullscreenDialog: true,
               ),
             ),
-            _birdListProvider.fetchBirdList()
+            _birdListProvider.getBirdList()
           },
           label: const Text('愛鳥を追加'),
           icon: const Icon(Icons.add),
@@ -118,7 +118,7 @@ class BirdListScreen extends HookConsumerWidget {
   Future showConfirmDialog(
     BuildContext context,
     Bird bird,
-    BirdListViewModel model,
+    BirdListModel model,
   ) {
     return showDialog(
       context: context,
@@ -143,7 +143,7 @@ class BirdListScreen extends HookConsumerWidget {
                   backgroundColor: Colors.red,
                   content: Text('${bird.name}を削除しました'),
                 );
-                model.fetchBirdList();
+                model.getBirdList();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
             ),

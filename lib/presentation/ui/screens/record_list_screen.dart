@@ -1,10 +1,8 @@
-import 'dart:collection';
-
+import 'package:BirdHealthcare/presentation/models/bird_list_model.dart';
 import 'package:BirdHealthcare/presentation/models/record_list_model.dart';
+import 'package:BirdHealthcare/presentation/models/select_bird_model.dart';
 import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import 'package:BirdHealthcare/presentation/providers/common_provider.dart';
-import 'package:BirdHealthcare/view_models/bird_list.dart';
-import 'package:BirdHealthcare/view_models/select_bird.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../widgets/circle_avatar_list_view.dart';
 import '../widgets/graph_panel.dart';
@@ -19,8 +17,8 @@ class RecordListScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BirdListViewModel _birdListProvider = ref.watch(birdListProvider);
-    SelectBird _selectBirdProvider = ref.watch(selectBirdProvider);
+    BirdListModel _birdListProvider = ref.watch(birdListProvider);
+    SelectBirdModel _selectBirdProvider = ref.watch(selectBirdProvider);
     StateController<int> _selectedViewIndexProvider =
         ref.watch(selectedViewIndexProvider);
     StateController<CalendarFormat> _selectedCalendarFormatProvider =

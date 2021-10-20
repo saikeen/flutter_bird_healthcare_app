@@ -1,6 +1,6 @@
-import 'package:BirdHealthcare/view_models/add_record.dart';
+import 'package:BirdHealthcare/presentation/models/add_record_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final addRecordProvider = ChangeNotifierProvider(
-  (ref) => AddRecordViewModel(),
+  (ref) => AddRecordModel(),
 );
