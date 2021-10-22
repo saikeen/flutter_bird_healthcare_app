@@ -37,7 +37,9 @@ class StylableCircleAbatarListView extends HookConsumerWidget {
         final List<Widget> widgets = birds
             .map((bird) => StylableCircleAbatarButton(
                   style: CircleAbatarButtonStyle(
-                      backgroundColor: Colors.grey.shade200, size: 60),
+                      margin: EdgeInsets.only(left: 8.0),
+                      backgroundColor: Colors.grey.shade200,
+                      size: 60),
                   text: bird.name,
                   imageUrl: bird.imageUrl,
                   onPressed: () {

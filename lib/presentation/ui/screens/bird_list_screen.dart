@@ -39,10 +39,12 @@ class BirdListScreen extends HookConsumerWidget {
                     child: ListTile(
                       leading: bird.imageUrl != null
                           ? CircleAvatar(
+                              radius: 30,
                               backgroundColor: Colors.grey.shade200,
                               backgroundImage: NetworkImage(bird.imageUrl!),
                             )
                           : CircleAvatar(
+                              radius: 30,
                               backgroundColor: Colors.grey.shade200,
                               child: Text(bird.name,
                                   style: TextStyle(fontSize: 7),
