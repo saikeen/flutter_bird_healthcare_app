@@ -1,8 +1,7 @@
-import 'package:BirdHealthcare/presentation/models/bird_list_model.dart';
 import 'package:BirdHealthcare/presentation/models/record_list_model.dart';
-import 'package:BirdHealthcare/presentation/models/select_bird_model.dart';
 import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import 'package:BirdHealthcare/presentation/providers/common_provider.dart';
+import 'package:BirdHealthcare/presentation/providers/record_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../widgets/circle_avatar_list_view.dart';
 import '../widgets/graph_panel.dart';
@@ -10,15 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 import 'package:intl/intl.dart';
-import '../screens/add_record_screen.dart';
+import 'edit_record_screen.dart';
 
 class RecordListScreen extends HookConsumerWidget {
   const RecordListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    BirdListModel _birdListProvider = ref.watch(birdListProvider);
-    SelectBirdModel _selectBirdProvider = ref.watch(selectBirdProvider);
+    final _birdListProvider = ref.watch(birdListProvider);
+    final _selectBirdProvider = ref.watch(selectBirdProvider);
+    final _editRecordProvider = ref.watch(editRecordProvider);
     StateController<int> _selectedViewIndexProvider =
         ref.watch(selectedViewIndexProvider);
     StateController<CalendarFormat> _selectedCalendarFormatProvider =
@@ -238,25 +238,24 @@ class RecordListScreen extends HookConsumerWidget {
                   firstDay: DateTime.utc(2020, 1, 1),
                   lastDay: DateTime.utc(2030, 12, 31),
                   focusedDay: _focusedCalendarDayProvider.state,
-                  calendarFormat:
-                      _selectedCalendarFormatProvider.state, //以下、追記部分。
-                  // フォーマット変更のボタン押下時の処理
+                  calendarFormat: _selectedCalendarFormatProvider.state,
                   onFormatChanged: (format) {
                     if (_selectedCalendarFormatProvider.state != format) {
                       _selectedCalendarFormatProvider.state = format;
                     }
                   },
                   selectedDayPredicate: (day) {
-                    //以下追記部分
                     return isSameDay(_selectedCalendarDayProvider.state, day);
                   },
                   onDaySelected: (selectedDay, focusedDay) async {
                     if (isSameDay(
                         _selectedCalendarDayProvider.state, selectedDay)) {
+                      _editRecordProvider.getRecord(
+                          _selectBirdProvider.id, selectedDay);
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddRecordScreen(),
+                          builder: (context) => EditRecordScreen(),
                           fullscreenDialog: true,
                         ),
                       );
@@ -279,10 +278,13 @@ class RecordListScreen extends HookConsumerWidget {
             {}
           else
             {
+              _selectedCalendarDayProvider.state = DateTime.now(),
+              _editRecordProvider.getRecord(
+                  _selectBirdProvider.id, DateTime.now()),
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddRecordScreen(),
+                  builder: (context) => EditRecordScreen(),
                   fullscreenDialog: true,
                 ),
               ),

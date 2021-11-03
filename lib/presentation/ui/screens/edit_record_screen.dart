@@ -28,17 +28,16 @@ String formatDistanceToNow(DateTime date) {
   return formatDistanceToNow;
 }
 
-class AddRecordScreen extends HookConsumerWidget {
-  const AddRecordScreen({Key? key}) : super(key: key);
+class EditRecordScreen extends HookConsumerWidget {
+  const EditRecordScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _addRecordProvider = ref.watch(addRecordProvider);
+    final _editRecordProvider = ref.watch(editRecordProvider);
     final _selectBirdProvider = ref.watch(selectBirdProvider);
     StateController<DateTime> _selectedCalendarDayProvider =
         ref.watch(selectedCalendarDayProvider);
-
-    _addRecordProvider.birdId = _selectBirdProvider.id;
+    print(_editRecordProvider.bodyWeight);
 
     return Scaffold(
       appBar: AppBar(
@@ -54,32 +53,26 @@ class AddRecordScreen extends HookConsumerWidget {
             child: Column(
               children: [
                 TextField(
+                  controller: _editRecordProvider.bodyWeightController,
                   decoration: InputDecoration(
                     labelText: "体重",
                   ),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   onChanged: (text) {
-                    try {
-                      _addRecordProvider.bodyWeight = double.parse(text);
-                    } catch (exception) {
-                      _addRecordProvider.bodyWeight = 0.0;
-                    }
+                    _editRecordProvider.setBodyWeight(double.parse(text));
                   },
                 ),
                 SizedBox(
                   height: 16,
                 ),
                 TextField(
+                  controller: _editRecordProvider.foodWeightController,
                   decoration: InputDecoration(
                     labelText: "食事量",
                   ),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   onChanged: (text) {
-                    try {
-                      _addRecordProvider.foodWeight = double.parse(text);
-                    } catch (exception) {
-                      _addRecordProvider.foodWeight = 0.0;
-                    }
+                    _editRecordProvider.setFoodWeight(double.parse(text));
                   },
                 ),
                 SizedBox(
@@ -88,11 +81,12 @@ class AddRecordScreen extends HookConsumerWidget {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      await ref.watch(addRecordProvider).addRecord();
+                      _editRecordProvider
+                          .updateRecord(_selectedCalendarDayProvider.state);
                       Navigator.of(context).pop(true);
                       final snackBar = SnackBar(
                         backgroundColor: Colors.green,
-                        content: Text('愛鳥を登録しました'),
+                        content: Text('記録を更新しました'),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } catch (e) {
