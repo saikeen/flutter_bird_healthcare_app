@@ -1,7 +1,10 @@
 import 'package:BirdHealthcare/core/domain/record.dart';
 import 'package:BirdHealthcare/core/domain/weight_data.dart';
+import 'package:BirdHealthcare/core/repository/record_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_date/src/dart_date.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/material.dart';
 
 DateTime monday = DateTime.now().startOfISOWeek;
 final weekDays = [
@@ -14,7 +17,26 @@ final weekDays = [
   monday.addDays(6),
 ];
 
-class RecordListModel {
+class RecordListModel extends ChangeNotifier {
+  Future<List<Record>> getRecordList(String birdId, DateTime date) async {
+    RecordRepository _recordRepository = RecordRepository();
+    final records = await _recordRepository.fetchRecords(birdId, date);
+
+    final List<Record> recordList =
+        records.docs.map((DocumentSnapshot document) {
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+      final String id = document.id;
+      final String birdId = data['birdId'];
+      final double bodyWeight = data['bodyWeight'].toDouble();
+      final double foodWeight = data['foodWeight'].toDouble();
+      final Timestamp createdAt = data['createdAt'];
+      return Record(id, birdId, bodyWeight, foodWeight, createdAt);
+    }).toList();
+
+    return recordList;
+  }
+
   List<charts.Series<WeightData, DateTime>> makeBodyWeightGraphData(
       List<Record>? records) {
     if (records != null) {

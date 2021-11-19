@@ -2,8 +2,9 @@ import 'package:BirdHealthcare/presentation/models/record_list_model.dart';
 import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import 'package:BirdHealthcare/presentation/providers/common_provider.dart';
 import 'package:BirdHealthcare/presentation/providers/record_provider.dart';
+import 'package:BirdHealthcare/presentation/ui/widgets/bird_button_list.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../widgets/circle_avatar_list_view.dart';
 import '../widgets/graph_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,8 +18,10 @@ class RecordListScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _birdListProvider = ref.watch(birdListProvider);
+    final _recordListProvider = ref.watch(recordListProvider);
     final _selectBirdProvider = ref.watch(selectBirdProvider);
     final _editRecordProvider = ref.watch(editRecordProvider);
+
     StateController<int> _selectedViewIndexProvider =
         ref.watch(selectedViewIndexProvider);
     StateController<CalendarFormat> _selectedCalendarFormatProvider =
@@ -50,9 +53,9 @@ class RecordListScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[900],
-        title: _selectBirdProvider.name.isEmpty
+        title: _selectBirdProvider.bird == null
             ? Text('ホーム')
-            : Text('${_selectBirdProvider.name}の情報'),
+            : Text('${_selectBirdProvider.bird?.name}の情報'),
         elevation: 0,
       ),
       body: Column(
@@ -60,43 +63,44 @@ class RecordListScreen extends HookConsumerWidget {
           SizedBox(
             height: 8,
           ),
-          StylableCircleAbatarListView(data: _birdListProvider),
+          BirdButtonList(),
           SizedBox(
             height: 8,
           ),
-          if (_selectBirdProvider.name.isEmpty)
-            Center(child: Text("愛鳥を選択してください")),
-          if (_selectBirdProvider.name.isNotEmpty)
-            MaterialSegmentedControl(
-              children: _children,
-              selectionIndex: _selectedViewIndexProvider.state,
-              borderColor: Colors.white,
-              selectedColor: Colors.orange,
-              unselectedColor: Colors.white,
-              borderRadius: 8.0,
-              onSegmentChosen: (index) {
-                _selectedViewIndexProvider.state = index as int;
-              },
-            ),
+          (_selectBirdProvider.bird == null)
+              ? Center(child: Text("愛鳥を選択してください"))
+              : MaterialSegmentedControl(
+                  children: _children,
+                  selectionIndex: _selectedViewIndexProvider.state,
+                  borderColor: Colors.white,
+                  selectedColor: Colors.orange,
+                  unselectedColor: Colors.white,
+                  borderRadius: 8.0,
+                  onSegmentChosen: (index) {
+                    _selectedViewIndexProvider.state = index as int;
+                  },
+                ),
           SizedBox(
             height: 8,
           ),
           Expanded(
               child: ListView(
             children: <Widget>[
-              if (_selectBirdProvider.name.isNotEmpty &&
+              if (_selectBirdProvider.bird != null &&
                   _selectedViewIndexProvider.state == 0)
-                StylableGraphPanel(
-                    title: "体重",
-                    data: recordListModel
-                        .makeBodyWeightGraphData(_selectBirdProvider.records)),
-              if (_selectBirdProvider.name.isNotEmpty &&
-                  _selectedViewIndexProvider.state == 0)
-                StylableGraphPanel(
-                    title: "食事量",
-                    data: recordListModel
-                        .makeFoodWeightGraphData(_selectBirdProvider.records)),
-              if (_selectBirdProvider.name.isNotEmpty &&
+                Column(
+                  children: [
+                    StylableGraphPanel(
+                        title: "体重",
+                        // TODO: makeBodyWeightGraphDataの引数にFirestoreから取得したRecordデータのリストを渡す
+                        data: recordListModel.makeBodyWeightGraphData([])),
+                    StylableGraphPanel(
+                        title: "食事量",
+                        // TODO: makeFoodWeightGraphDataの引数にFirestoreから取得したRecordデータのリストを渡す
+                        data: recordListModel.makeFoodWeightGraphData([])),
+                  ],
+                ),
+              if (_selectBirdProvider.bird != null &&
                   _selectedViewIndexProvider.state == 1)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -174,8 +178,9 @@ class RecordListScreen extends HookConsumerWidget {
                           ),
                         ],
                       ),
-                      for (final birdTableData in recordListModel
-                          .makeBirdTableData(_selectBirdProvider.records))
+                      // TODO: makeBirdTableDataの引数にFirestoreから取得したRecordデータのリストを渡す
+                      for (final birdTableData
+                          in recordListModel.makeBirdTableData([]))
                         TableRow(
                           children: <Widget>[
                             TableCell(
@@ -231,7 +236,7 @@ class RecordListScreen extends HookConsumerWidget {
                     ],
                   ),
                 ),
-              if (_selectBirdProvider.name.isNotEmpty &&
+              if (_selectBirdProvider.bird != null &&
                   _selectedViewIndexProvider.state == 2)
                 TableCalendar(
                   locale: 'ja_JP',
@@ -251,7 +256,7 @@ class RecordListScreen extends HookConsumerWidget {
                     if (isSameDay(
                         _selectedCalendarDayProvider.state, selectedDay)) {
                       _editRecordProvider.getRecord(
-                          _selectBirdProvider.id, selectedDay);
+                          (_selectBirdProvider.bird?.id ?? ''), selectedDay);
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -274,13 +279,13 @@ class RecordListScreen extends HookConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async => {
-          if (_selectBirdProvider.id.isEmpty)
+          if (_selectBirdProvider.bird == null)
             {}
           else
             {
               _selectedCalendarDayProvider.state = DateTime.now(),
               _editRecordProvider.getRecord(
-                  _selectBirdProvider.id, DateTime.now()),
+                  (_selectBirdProvider.bird?.id ?? ''), DateTime.now()),
               await Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -72,7 +72,6 @@ class EditRecordModel extends ChangeNotifier {
     }
 
     if (this.id.isEmpty) {
-      print('create');
       await FirebaseFirestore.instance.collection('records').add({
         'birdId': birdId,
         'bodyWeight': bodyWeight,
@@ -80,7 +79,6 @@ class EditRecordModel extends ChangeNotifier {
         'createdAt': date,
       });
     } else {
-      print('update');
       await FirebaseFirestore.instance
           .collection('records')
           .doc(this.id)

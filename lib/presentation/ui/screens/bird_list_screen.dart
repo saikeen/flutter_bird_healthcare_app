@@ -2,6 +2,7 @@ import 'package:BirdHealthcare/core/domain/bird.dart';
 import 'package:BirdHealthcare/presentation/models/bird_list_model.dart';
 import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -37,18 +38,19 @@ class BirdListScreen extends HookConsumerWidget {
               .map((bird) => Slidable(
                     actionPane: SlidableDrawerActionPane(),
                     child: ListTile(
-                      leading: bird.imageUrl != null
+                      leading: bird.imageUrl.isNotEmpty
                           ? CircleAvatar(
                               radius: 30,
-                              backgroundColor: Colors.grey.shade200,
-                              backgroundImage: NetworkImage(bird.imageUrl!),
+                              backgroundColor: Colors.orange,
+                              backgroundImage: NetworkImage(bird.imageUrl),
                             )
                           : CircleAvatar(
                               radius: 30,
-                              backgroundColor: Colors.grey.shade200,
-                              child: Text(bird.name,
-                                  style: TextStyle(fontSize: 7),
-                                  overflow: TextOverflow.ellipsis),
+                              backgroundColor: Colors.orange,
+                              child: FaIcon(
+                                FontAwesomeIcons.dove,
+                                color: Colors.white,
+                              ),
                             ),
                       title: Text(bird.name),
                       subtitle:

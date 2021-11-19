@@ -40,6 +40,8 @@ class AddBirdModel extends ChangeNotifier {
           .ref('birds/${doc.id}')
           .putFile(imageFile!);
       imageUrl = await task.ref.getDownloadURL();
+    } else {
+      imageUrl = '';
     }
 
     // Firestoreに追加

@@ -37,13 +37,12 @@ class EditRecordScreen extends HookConsumerWidget {
     final _selectBirdProvider = ref.watch(selectBirdProvider);
     StateController<DateTime> _selectedCalendarDayProvider =
         ref.watch(selectedCalendarDayProvider);
-    print(_editRecordProvider.bodyWeight);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[900],
         title: Text(
-            '${_selectBirdProvider.name}の記録(${formatDistanceToNow(_selectedCalendarDayProvider.state)})'),
+            '${(_selectBirdProvider.bird?.name ?? '')}の記録(${formatDistanceToNow(_selectedCalendarDayProvider.state)})'),
         elevation: 0,
       ),
       body: Center(
@@ -96,8 +95,7 @@ class EditRecordScreen extends HookConsumerWidget {
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } finally {
-                      _selectBirdProvider.setData(
-                          _selectBirdProvider.id, _selectBirdProvider.name);
+                      _selectBirdProvider.setBird(_selectBirdProvider.bird);
                     }
                   },
                   child: Text('追加する'),
