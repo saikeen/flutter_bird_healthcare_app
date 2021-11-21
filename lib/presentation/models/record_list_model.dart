@@ -18,9 +18,9 @@ final weekDays = [
 ];
 
 class RecordListModel extends ChangeNotifier {
-  Future<List<Record>> getRecordList(String birdId, DateTime date) async {
+  Future<List<Record>> getRecordsForWeek(String birdId, DateTime date) async {
     RecordRepository _recordRepository = RecordRepository();
-    final records = await _recordRepository.fetchRecords(birdId, date);
+    final records = await _recordRepository.fetchRecordsForWeek(birdId, date);
 
     final List<Record> recordList =
         records.docs.map((DocumentSnapshot document) {

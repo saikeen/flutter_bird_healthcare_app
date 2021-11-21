@@ -84,7 +84,7 @@ class BirdButtonList extends HookConsumerWidget {
                       ),
                     ),
                   )),
-              Text(""),
+              Text(obj.bird?.name ?? ''),
             ],
           ),
         )

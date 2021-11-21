@@ -28,7 +28,7 @@ class EditRecordModel extends ChangeNotifier {
 
   void getRecord(String birdId, DateTime date) async {
     RecordRepository _recordRepository = RecordRepository();
-    final records = await _recordRepository.fetchRecords(birdId, date);
+    final records = await _recordRepository.fetchRecordsForDay(birdId, date);
 
     if (records.docs.length > 0) {
       final record = records.docs.first;

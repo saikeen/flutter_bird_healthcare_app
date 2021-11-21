@@ -35,14 +35,13 @@ class EditRecordScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _editRecordProvider = ref.watch(editRecordProvider);
     final _selectBirdProvider = ref.watch(selectBirdProvider);
-    StateController<DateTime> _selectedCalendarDayProvider =
-        ref.watch(selectedCalendarDayProvider);
+    final _selectedCalendarDayProvider = ref.watch(selectedCalendarDayProvider);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[900],
         title: Text(
-            '${(_selectBirdProvider.bird?.name ?? '')}の記録(${formatDistanceToNow(_selectedCalendarDayProvider.state)})'),
+            '${(_selectBirdProvider.bird?.name ?? '')}の記録(${formatDistanceToNow(_selectedCalendarDayProvider)})'),
         elevation: 0,
       ),
       body: Center(
@@ -81,7 +80,7 @@ class EditRecordScreen extends HookConsumerWidget {
                   onPressed: () async {
                     try {
                       _editRecordProvider
-                          .updateRecord(_selectedCalendarDayProvider.state);
+                          .updateRecord(_selectedCalendarDayProvider);
                       Navigator.of(context).pop(true);
                       final snackBar = SnackBar(
                         backgroundColor: Colors.green,
