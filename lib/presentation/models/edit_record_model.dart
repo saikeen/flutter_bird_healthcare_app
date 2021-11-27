@@ -7,13 +7,17 @@ class EditRecordModel extends ChangeNotifier {
   var _birdId = "";
   var _bodyWeight = 0.0;
   var _foodWeight = 0.0;
+  var _note = "";
+
   final bodyWeightController = TextEditingController();
   final foodWeightController = TextEditingController();
+  final noteController = TextEditingController();
 
   String get id => _id;
   String get birdId => _birdId;
   double get bodyWeight => _bodyWeight;
   double get foodWeight => _foodWeight;
+  String get note => _note;
   bool isLoading = false;
 
   void startLoading() {
@@ -36,13 +40,18 @@ class EditRecordModel extends ChangeNotifier {
       _birdId = birdId;
       _bodyWeight = record['bodyWeight'];
       _foodWeight = record['foodWeight'];
+      _note =
+          record.data().toString().contains('note') ? record.get('note') : '';
       bodyWeightController.text = record['bodyWeight'].toString();
       foodWeightController.text = record['foodWeight'].toString();
+      noteController.text =
+          record.data().toString().contains('note') ? record.get('note') : '';
     } else {
       _id = "";
       _birdId = birdId;
       bodyWeightController.text = "";
       foodWeightController.text = "";
+      noteController.text = "";
     }
 
     notifyListeners();
@@ -55,6 +64,11 @@ class EditRecordModel extends ChangeNotifier {
 
   void setFoodWeight(double foodWeight) {
     _foodWeight = foodWeight;
+    notifyListeners();
+  }
+
+  void setNote(String note) {
+    _note = note;
     notifyListeners();
   }
 
@@ -76,6 +90,7 @@ class EditRecordModel extends ChangeNotifier {
         'birdId': birdId,
         'bodyWeight': bodyWeight,
         'foodWeight': foodWeight,
+        'note': note,
         'createdAt': date,
       });
     } else {
@@ -86,6 +101,7 @@ class EditRecordModel extends ChangeNotifier {
         'birdId': birdId,
         'bodyWeight': bodyWeight,
         'foodWeight': foodWeight,
+        'note': note,
       });
     }
   }

@@ -76,6 +76,20 @@ class EditRecordScreen extends HookConsumerWidget {
                 SizedBox(
                   height: 16,
                 ),
+                TextField(
+                  maxLines: null,
+                  minLines: 3,
+                  controller: _editRecordProvider.noteController,
+                  decoration: InputDecoration(
+                    labelText: "備考",
+                  ),
+                  onChanged: (text) {
+                    _editRecordProvider.setNote(text);
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
                 ElevatedButton(
                   onPressed: () async {
                     try {
