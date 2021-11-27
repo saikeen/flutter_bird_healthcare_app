@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import './screens/bird_list_screen.dart';
 import './screens/record_list_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,11 +26,11 @@ class HomeScreen extends HookConsumerWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: FaIcon(FontAwesomeIcons.home),
             label: 'ホーム',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt_outlined),
+            icon: FaIcon(FontAwesomeIcons.dove),
             label: '愛鳥管理',
           ),
         ],

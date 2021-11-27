@@ -2,6 +2,7 @@ import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -38,7 +39,7 @@ class EditBirdScreen extends HookConsumerWidget {
                             backgroundImage:
                                 Image.file(_editBirdProvider.imageFile!).image,
                           );
-                        } else if (_editBirdProvider.imageUrl != "null") {
+                        } else if (_editBirdProvider.imageUrl.isNotEmpty) {
                           return CircleAvatar(
                               radius: 50,
                               backgroundColor: Colors.grey.shade200,
@@ -47,7 +48,11 @@ class EditBirdScreen extends HookConsumerWidget {
                         } else {
                           return CircleAvatar(
                               radius: 50,
-                              backgroundColor: Colors.grey.shade200);
+                              backgroundColor: Colors.grey.shade200,
+                              child: FaIcon(
+                                FontAwesomeIcons.images,
+                                color: Colors.grey,
+                              ));
                         }
                       })(),
                       onTap: () async {
