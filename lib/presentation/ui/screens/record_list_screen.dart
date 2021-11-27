@@ -23,16 +23,8 @@ class RecordListScreen extends HookConsumerWidget {
 
     StateController<int> _selectedViewIndexProvider =
         ref.watch(selectedViewIndexProvider.state);
-    StateController<CalendarFormat> _selectedCalendarFormatProvider =
-        ref.watch(selectedCalendarFormatProvider.state);
     StateController<DateTime> _selectedCalendarDayProvider =
         ref.watch(selectedCalendarDayProvider.state);
-    StateController<DateTime> _focusedCalendarDayProvider =
-        ref.watch(focusedCalendarDayProvider.state);
-
-    RecordListModel recordListModel = RecordListModel();
-
-    DateFormat formatter = DateFormat('MM/dd');
 
     Map<int, Widget> _children = {
       0: Padding(
@@ -130,11 +122,10 @@ class RecordListScreen extends HookConsumerWidget {
     final asyncValue = ref.watch(futureRecordsForWeekProvider);
 
     return asyncValue.when(
-      data: (data) => data.isNotEmpty
+      data: (data) => _selectBirdProvider.bird != null
           ? ListView(
               children: <Widget>[
-                if (_selectBirdProvider.bird != null &&
-                    _selectedViewIndexProvider.state == 0)
+                if (_selectedViewIndexProvider.state == 0)
                   Column(
                     children: [
                       StylableGraphPanel(
@@ -145,8 +136,7 @@ class RecordListScreen extends HookConsumerWidget {
                           data: recordListModel.makeFoodWeightGraphData(data)),
                     ],
                   ),
-                if (_selectBirdProvider.bird != null &&
-                    _selectedViewIndexProvider.state == 1)
+                if (_selectedViewIndexProvider.state == 1)
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Table(
@@ -281,8 +271,7 @@ class RecordListScreen extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                if (_selectBirdProvider.bird != null &&
-                    _selectedViewIndexProvider.state == 2)
+                if (_selectedViewIndexProvider.state == 2)
                   TableCalendar(
                     locale: 'ja_JP',
                     firstDay: DateTime.utc(2020, 1, 1),
@@ -320,25 +309,7 @@ class RecordListScreen extends HookConsumerWidget {
                   ),
               ],
             )
-          : _emptyListView(),
-      loading: _loadingView,
-      error: (error, _) => _errorView(error.toString()),
-    );
-  }
-
-  Widget _buildList(WidgetRef ref) {
-    final asyncValue = ref.watch(futureRecordsForWeekProvider);
-
-    return asyncValue.when(
-      data: (data) => data.isNotEmpty
-          ? ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: data.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _repositoryTile(data[index]);
-              },
-            )
-          : _emptyListView(),
+          : _unselectedListView(),
       loading: _loadingView,
       error: (error, _) => _errorView(error.toString()),
     );
@@ -358,13 +329,16 @@ class RecordListScreen extends HookConsumerWidget {
     return Container();
   }
 
-  Widget _emptyListView() {
+  Widget _unselectedListView() {
     return const Center(
-      child: Text(
-        'Recordが見つかりませんでした',
-        style: TextStyle(
-          color: Colors.black54,
-          fontSize: 16,
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          '記録を表示する愛鳥が選択されていません。愛鳥が未登録の場合は画面上部の追加ボタンをタップし、登録をお願い致します。',
+          style: TextStyle(
+            color: Colors.black54,
+            fontSize: 16,
+          ),
         ),
       ),
     );
