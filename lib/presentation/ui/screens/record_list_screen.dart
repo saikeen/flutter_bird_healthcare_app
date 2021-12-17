@@ -1,17 +1,19 @@
-import 'package:BirdHealthcare/core/domain/record.dart';
-import 'package:BirdHealthcare/presentation/models/record_list_model.dart';
-import 'package:BirdHealthcare/presentation/providers/bird_provider.dart';
-import 'package:BirdHealthcare/presentation/providers/common_provider.dart';
-import 'package:BirdHealthcare/presentation/providers/record_provider.dart';
-import 'package:BirdHealthcare/presentation/ui/widgets/bird_button_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../widgets/graph_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_segmented_control/material_segmented_control.dart';
 import 'package:intl/intl.dart';
+import 'add_bird_screen.dart';
 import 'edit_record_screen.dart';
+import '../ui-kits/select_button_list.dart';
+import '../ui-kits/graph_panel.dart';
+import '../../../core/domain/record.dart';
+import '../../../presentation/models/record_list_model.dart';
+import '../../../presentation/providers/bird_provider.dart';
+import '../../../presentation/providers/common_provider.dart';
+import '../../../presentation/providers/record_provider.dart';
 
 class RecordListScreen extends HookConsumerWidget {
   const RecordListScreen({Key? key}) : super(key: key);
@@ -20,11 +22,25 @@ class RecordListScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _selectBirdProvider = ref.watch(selectBirdProvider);
     final _editRecordProvider = ref.watch(editRecordProvider);
-
-    StateController<int> _selectedViewIndexProvider =
+    final _birdListProvider = ref.watch(birdListProvider);
+    final _selectedViewIndexProvider =
         ref.watch(selectedViewIndexProvider.state);
-    StateController<DateTime> _selectedCalendarDayProvider =
+    final _selectedCalendarDayProvider =
         ref.watch(selectedCalendarDayProvider.state);
+
+    void handleChangeForSelectButtonList(selectedIndex, selectedData) {
+      if (selectedIndex == ADD_BUTTON_INDEX) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddBirdScreen(),
+            fullscreenDialog: true,
+          ),
+        );
+      } else {
+        _selectBirdProvider.setBird(selectedData);
+      }
+    }
 
     Map<int, Widget> _children = {
       0: Padding(
@@ -54,7 +70,12 @@ class RecordListScreen extends HookConsumerWidget {
           SizedBox(
             height: 8,
           ),
-          BirdButtonList(),
+          SelectButtonList(
+            _selectBirdProvider.bird,
+            _birdListProvider.birds,
+            handleChangeForSelectButtonList,
+            FaIcon(FontAwesomeIcons.dove),
+          ),
           SizedBox(
             height: 8,
           ),
